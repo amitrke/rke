@@ -7,35 +7,39 @@ jobs:
   build:
   
     docker:
-      # specify the version you desire here
-      - image: amitrke/node-appengine:master
-        env:
-          - DISPLAY=:99
-          - CHROME_BIN=/usr/bin/google-chrome
-      
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
+      - image: amitrke/java-appengine:latest
 
-    working_directory: ~/repo
+    working_directory: ~/rkerestapi
 
     steps:
       - checkout
 
-      # Download and cache dependencies
       - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+                key: rkerestapi-{{ checksum "pom.xml" }}
 
-      - run: yarn install
+      - run: mvn dependency:go-offline
 
       - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-        
-      # run tests!
-      - run: yarn test
+                paths:
+                  - ~/.m2
+                key: rkerestapi-{{ checksum "pom.xml" }}
+
+      - run:
+          name: Build and package
+          command: mvn -DskipTests=true package
+
+      - run:
+             name: Dump Google Cloud Credentials to file
+             command: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
+
+      - run:
+          name: Active service account
+          command: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
+
+      - run:
+          name: Set Google cloud project id
+          command: gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+
+      - run:
+          name: Deploy to Google Appengine
+          command: mvn -DskipTests appengine:deploy
