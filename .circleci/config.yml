@@ -25,3 +25,15 @@ jobs:
                 key: rkerestapi-{{ checksum "pom.xml" }}
 
       - run: mvn -DskipTests=true package
+
+      - run:
+             name: Dump Google Cloud Credentials to file
+             command: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
+
+      - run:
+          name: Active service account
+          command: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
+
+      - run:
+          name: Deploy to Google Appengine
+          command: mvn -DskipTests appengine:deploy
