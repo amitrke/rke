@@ -24,7 +24,9 @@ jobs:
                   - ~/.m2
                 key: rkerestapi-{{ checksum "pom.xml" }}
 
-      - run: mvn -DskipTests=true package
+      - run:
+          name: Build and package
+          command: mvn -DskipTests=true package
 
       - run:
              name: Dump Google Cloud Credentials to file
@@ -33,6 +35,10 @@ jobs:
       - run:
           name: Active service account
           command: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
+
+      - run:
+          name: Set Google cloud project id
+          command: gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
 
       - run:
           name: Deploy to Google Appengine
