@@ -15,6 +15,9 @@
         </sourceRoots>
       </configuration>
     </facet>
+    <facet type="google-app-engine" name="Google App Engine">
+      <configuration />
+    </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/target/classes" />
@@ -79,5 +82,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:javax.servlet-api:3.1.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.slf4j:jul-to-slf4j:1.7.25" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.25" level="project" />
+    <orderEntry type="library" name="Maven: com.google.appengine:appengine-api-1.0-sdk:1.9.60" level="project" />
   </component>
 </module>
