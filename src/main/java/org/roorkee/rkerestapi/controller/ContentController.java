@@ -1,17 +1,20 @@
-package org.roorkee.rkerestapi;
+package org.roorkee.rkerestapi.controller;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.roorkee.rkerestapi.dao.ContentDao;
+import org.roorkee.rkerestapi.entity.Content;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/content")
 public class ContentController {
+
+    @Autowired
+    private ContentDao dao;
 
     @GetMapping("/hello")
     public String hello() {
@@ -26,5 +29,10 @@ public class ContentController {
         DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
         Key k = datastoreService.put(testEntity);
         return k.toString();
+    }
+
+    @PostMapping(path= "/", consumes = "application/json", produces = "application/json")
+    public String create(@RequestBody Content content) {
+        return dao.create(content);
     }
 }
