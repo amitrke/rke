@@ -15,7 +15,7 @@
         </sourceRoots>
       </configuration>
     </facet>
-    <facet type="google-app-engine" name="Google App Engine">
+    <facet type="app-engine-standard" name="Google App Engine">
       <configuration />
     </facet>
   </component>
@@ -85,3 +85,4 @@
     <orderEntry type="library" name="Maven: com.google.appengine:appengine-api-1.0-sdk:1.9.60" level="project" />
   </component>
 </module>
+

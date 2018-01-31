@@ -1,11 +1,14 @@
 package org.roorkee.rkerestapi.entity;
 
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Text;
+
+import java.util.Map;
 
 public class Content implements IEntity{
 
-    private String id;
+    private long id;
     private String imageURL;
     private String description;
     private String fullText;
@@ -13,18 +16,18 @@ public class Content implements IEntity{
     public Content() {
     }
 
-    public Content(String id, String imageURL, String description, String fullText) {
+    public Content(long id, String imageURL, String description, String fullText) {
         this.id = id;
         this.imageURL = imageURL;
         this.description = description;
         this.fullText = fullText;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -53,13 +56,26 @@ public class Content implements IEntity{
     }
 
     @Override
+    public String getKeyKind() {
+        return "Content";
+    }
+
+    @Override
     public Entity toGoogleDatastoreEntity() {
-        Entity gDtaEntity = new Entity("Content");
-        gDtaEntity.setProperty("id", this.id);
+        Entity gDtaEntity = new Entity(getKeyKind());
         gDtaEntity.setProperty("imageURL", this.imageURL);
         gDtaEntity.setProperty("description", this.description);
         gDtaEntity.setProperty("fullText", new Text(this.fullText));
         return gDtaEntity;
+    }
+
+    @Override
+    public void setGEntity(Entity entity) {
+        this.id = entity.getKey().getId();
+        Map<String, Object> entityProperties = entity.getProperties();
+        this.imageURL = (String) entityProperties.get("imageURL");
+        this.description = (String) entityProperties.get("description");
+        this.fullText = ((Text) entityProperties.get("fullText")).toString();
     }
 
     @Override

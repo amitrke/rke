@@ -35,4 +35,9 @@ public class ContentController {
     public String create(@RequestBody Content content) {
         return dao.create(content);
     }
+
+    @GetMapping(path="/{id}", produces = "application/json")
+    public Content get(@PathVariable long id) {
+        return dao.get(id);
+    }
 }
