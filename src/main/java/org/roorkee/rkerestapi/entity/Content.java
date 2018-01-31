@@ -1,6 +1,7 @@
 package org.roorkee.rkerestapi.entity;
 
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Text;
 
 public class Content implements IEntity{
 
@@ -57,7 +58,7 @@ public class Content implements IEntity{
         gDtaEntity.setProperty("id", this.id);
         gDtaEntity.setProperty("imageURL", this.imageURL);
         gDtaEntity.setProperty("description", this.description);
-        gDtaEntity.setProperty("fullText", this.fullText);
+        gDtaEntity.setProperty("fullText", new Text(this.fullText));
         return gDtaEntity;
     }
 
