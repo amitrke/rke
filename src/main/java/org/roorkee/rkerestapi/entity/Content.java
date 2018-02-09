@@ -75,7 +75,13 @@ public class Content implements IEntity{
         Map<String, Object> entityProperties = entity.getProperties();
         this.imageURL = (String) entityProperties.get("imageURL");
         this.description = (String) entityProperties.get("description");
-        this.fullText = ((Text) entityProperties.get("fullText")).getValue();
+
+        if (entityProperties.get("fullText") instanceof Text){
+            this.fullText = ((Text) entityProperties.get("fullText")).getValue();
+        }
+        else if (entityProperties.get("fullText") instanceof String){
+            this.fullText = (String) entityProperties.get("fullText");
+        }
     }
 
     @Override
