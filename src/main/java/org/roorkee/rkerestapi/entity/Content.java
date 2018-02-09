@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class Content implements IEntity{
 
-    private long id;
+    private String id;
     private String imageURL;
     private String description;
     private String fullText;
@@ -16,18 +16,18 @@ public class Content implements IEntity{
     public Content() {
     }
 
-    public Content(long id, String imageURL, String description, String fullText) {
+    public Content(String id, String imageURL, String description, String fullText) {
         this.id = id;
         this.imageURL = imageURL;
         this.description = description;
         this.fullText = fullText;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -62,7 +62,7 @@ public class Content implements IEntity{
 
     @Override
     public Entity toGoogleDatastoreEntity() {
-        Entity gDtaEntity = new Entity(getKeyKind());
+        Entity gDtaEntity = new Entity(getKeyKind(), this.id);
         gDtaEntity.setProperty("imageURL", this.imageURL);
         gDtaEntity.setProperty("description", this.description);
         gDtaEntity.setProperty("fullText", new Text(this.fullText));
@@ -71,11 +71,11 @@ public class Content implements IEntity{
 
     @Override
     public void setGEntity(Entity entity) {
-        this.id = entity.getKey().getId();
+        this.id = entity.getKey().getName();
         Map<String, Object> entityProperties = entity.getProperties();
         this.imageURL = (String) entityProperties.get("imageURL");
         this.description = (String) entityProperties.get("description");
-        this.fullText = ((Text) entityProperties.get("fullText")).toString();
+        this.fullText = ((Text) entityProperties.get("fullText")).getValue();
     }
 
     @Override

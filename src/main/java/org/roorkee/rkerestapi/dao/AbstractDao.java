@@ -4,6 +4,7 @@ import com.google.appengine.api.datastore.*;
 import org.roorkee.rkerestapi.entity.IEntity;
 import org.springframework.beans.factory.InitializingBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractDao<T extends IEntity> implements InitializingBean{
@@ -20,9 +21,10 @@ public abstract class AbstractDao<T extends IEntity> implements InitializingBean
         return k.toString();
     }
 
-    public T get(long id) throws RuntimeException{
+    public T get(String id) throws RuntimeException{
         try {
-            Entity gEntity = datastore.get(KeyFactory.createKey(getKind(), id));
+            //KeyFactory.createKey(getKind(), id)
+            Entity gEntity = datastore.get(createKey(id));
             T entity = newEntity();
             entity.setGEntity(gEntity);
             return entity;
@@ -32,7 +34,24 @@ public abstract class AbstractDao<T extends IEntity> implements InitializingBean
         }
     }
 
+    public List<T> list(){
+        Query q = new Query(getKind());
+        PreparedQuery pq = datastore.prepare(q);
+        List<Entity> gEntityList = pq.asList(FetchOptions.Builder.withLimit(10));
+        List<T> entityList = new ArrayList<T>();
+
+        for (Entity gEntity: gEntityList){
+            T entity = newEntity();
+            entity.setGEntity(gEntity);
+            entityList.add(entity);
+        }
+        return entityList;
+    }
+
+    abstract Key createKey(String id);
+
     abstract String getKind();
 
     abstract T newEntity();
+
 }

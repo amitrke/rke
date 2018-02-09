@@ -9,6 +9,8 @@ import org.roorkee.rkerestapi.entity.Content;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/content")
 public class ContentController {
@@ -37,7 +39,12 @@ public class ContentController {
     }
 
     @GetMapping(path="/{id}", produces = "application/json")
-    public Content get(@PathVariable long id) {
+    public Content get(@PathVariable String id) {
         return dao.get(id);
+    }
+
+    @GetMapping(path="/", produces = "application/json")
+    public List<Content> list(){
+        return dao.list();
     }
 }
