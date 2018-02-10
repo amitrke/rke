@@ -9,6 +9,7 @@ import java.util.Map;
 public class Content implements IEntity{
 
     private String id;
+    private String title;
     private String imageURL;
     private String description;
     private String fullText;
@@ -55,6 +56,14 @@ public class Content implements IEntity{
         this.fullText = fullText;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     @Override
     public String getKeyKind() {
         return "Content";
@@ -66,6 +75,7 @@ public class Content implements IEntity{
         gDtaEntity.setProperty("imageURL", this.imageURL);
         gDtaEntity.setProperty("description", this.description);
         gDtaEntity.setProperty("fullText", new Text(this.fullText));
+        gDtaEntity.setProperty("title", this.title);
         return gDtaEntity;
     }
 
@@ -75,7 +85,7 @@ public class Content implements IEntity{
         Map<String, Object> entityProperties = entity.getProperties();
         this.imageURL = (String) entityProperties.get("imageURL");
         this.description = (String) entityProperties.get("description");
-
+        this.title = (String) entityProperties.get("title");
         if (entityProperties.get("fullText") instanceof Text){
             this.fullText = ((Text) entityProperties.get("fullText")).getValue();
         }

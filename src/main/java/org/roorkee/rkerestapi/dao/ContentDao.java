@@ -1,6 +1,7 @@
 package org.roorkee.rkerestapi.dao;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import org.roorkee.rkerestapi.entity.Content;
 import org.springframework.stereotype.Repository;
 
@@ -20,6 +21,6 @@ public class ContentDao extends AbstractDao<Content>{
 
     @Override
     Key createKey(String id) {
-        return null;
+        return KeyFactory.createKey(getKind(), id);
     }
 }
