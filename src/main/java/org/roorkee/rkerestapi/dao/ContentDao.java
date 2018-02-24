@@ -19,8 +19,4 @@ public class ContentDao extends AbstractDao<Content>{
         return new Content();
     }
 
-    @Override
-    Key createKey(String id) {
-        return KeyFactory.createKey(getKind(), id);
-    }
 }

@@ -21,5 +21,4 @@ public abstract class AbstractEntity implements IEntity {
         this.id = id;
     }
 
-
 }

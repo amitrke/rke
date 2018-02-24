@@ -23,7 +23,6 @@ public abstract class AbstractDao<T extends IEntity> implements InitializingBean
 
     public T get(String id) throws RuntimeException{
         try {
-            //KeyFactory.createKey(getKind(), id)
             Entity gEntity = datastore.get(createKey(id));
             T entity = newEntity();
             entity.setGEntity(gEntity);
@@ -48,7 +47,9 @@ public abstract class AbstractDao<T extends IEntity> implements InitializingBean
         return entityList;
     }
 
-    abstract Key createKey(String id);
+    private Key createKey(String id) {
+        return KeyFactory.createKey(getKind(), id);
+    }
 
     abstract String getKind();
 
