@@ -18,7 +18,7 @@ public abstract class AbstractDao<T extends IEntity> implements InitializingBean
 
     public String create(T entity) {
         Key k = datastore.put(entity.toGoogleDatastoreEntity());
-        return k.toString();
+        return k.getName();
     }
 
     public T get(String id) throws RuntimeException{
