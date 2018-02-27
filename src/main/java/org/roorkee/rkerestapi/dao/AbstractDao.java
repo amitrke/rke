@@ -2,6 +2,7 @@ package org.roorkee.rkerestapi.dao;
 
 import com.google.appengine.api.datastore.*;
 import org.roorkee.rkerestapi.entity.IEntity;
+import org.roorkee.rkerestapi.util.RkeException;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public abstract class AbstractDao<T extends IEntity> implements InitializingBean
         return k.getName();
     }
 
-    public T get(String id) throws RuntimeException{
+    public T get(String id) {
         try {
             Entity gEntity = datastore.get(createKey(id));
             T entity = newEntity();
@@ -29,7 +30,7 @@ public abstract class AbstractDao<T extends IEntity> implements InitializingBean
             return entity;
         }
         catch (EntityNotFoundException e){
-            throw new RuntimeException(e);
+            throw new RkeException(e);
         }
     }
 

@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/content")
-@CrossOrigin(origins = "*")
+@CrossOrigin
 public class ContentController {
 
     @Autowired
