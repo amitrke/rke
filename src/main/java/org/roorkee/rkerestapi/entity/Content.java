@@ -13,6 +13,8 @@ public class Content implements IEntity{
     private String imageURL;
     private String description;
     private String fullText;
+    private String userId;
+    private int priority;
 
     public Content() {
     }
