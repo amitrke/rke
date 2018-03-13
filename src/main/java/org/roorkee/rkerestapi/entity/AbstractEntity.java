@@ -1,24 +1,40 @@
 package org.roorkee.rkerestapi.entity;
 
-import com.google.appengine.api.datastore.Entity;
+
+import java.util.Date;
 
 public abstract class AbstractEntity implements IEntity {
 
-    private String id;
+    private Date created;
 
-    public AbstractEntity() {
+    private User owner;
+
+    private String status;
+
+    public AbstractEntity(Date created, User owner, String status) {
+        this.created = created;
+        this.owner = owner;
+        this.status = status;
     }
 
-    public AbstractEntity(Entity entity) {
-
+    public Date getCreated() {
+        return created;
     }
 
-    public String getId() {
-        return id;
+    public User getOwner() {
+        return owner;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getStatus() {
+        return status;
     }
 
+    @Override
+    public String toString() {
+        return "AbstractEntity{" +
+                "created=" + created +
+                ", owner=" + owner +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

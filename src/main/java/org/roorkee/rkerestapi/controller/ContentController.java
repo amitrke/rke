@@ -7,6 +7,7 @@ import com.google.appengine.api.datastore.Key;
 import org.roorkee.rkerestapi.dao.ContentDao;
 import org.roorkee.rkerestapi.entity.Content;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
