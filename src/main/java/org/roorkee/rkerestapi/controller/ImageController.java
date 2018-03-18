@@ -33,11 +33,11 @@ public class ImageController {
     @PostMapping("testCreate")
     public String testCreate(HttpServletRequest req) throws IOException{
         GcsFileOptions instance = GcsFileOptions.getDefaultInstance();
-        GcsFilename fileName = new GcsFilename("bucketName", "objectName");
+        GcsFilename fileName = new GcsFilename("static.roorkee.org", req.getHeader("fileName"));
         GcsOutputChannel outputChannel;
         outputChannel = gcsService.createOrReplace(fileName, instance);
         copy(req.getInputStream(), Channels.newOutputStream(outputChannel));
-        return null;
+        return "Done";
     }
 
     /**
