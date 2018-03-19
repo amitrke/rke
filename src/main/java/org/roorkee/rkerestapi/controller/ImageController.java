@@ -1,5 +1,7 @@
 package org.roorkee.rkerestapi.controller;
 
+import org.roorkee.rkerestapi.service.FileStorageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,37 +25,11 @@ import java.nio.channels.Channels;
 @CrossOrigin
 public class ImageController {
 
-    private final GcsService gcsService = GcsServiceFactory.createGcsService(new RetryParams.Builder()
-            .initialRetryDelayMillis(10)
-            .retryMaxAttempts(10)
-            .totalRetryPeriodMillis(15000)
-            .build());
-    private static final int BUFFER_SIZE = 2 * 1024 * 1024;
+    @Autowired FileStorageService fileStorageService;
 
-    @PostMapping("testCreate")
-    public String testCreate(HttpServletRequest req) throws IOException{
-        GcsFileOptions instance = GcsFileOptions.getDefaultInstance();
-        GcsFilename fileName = new GcsFilename("static.roorkee.org", req.getHeader("fileName"));
-        GcsOutputChannel outputChannel;
-        outputChannel = gcsService.createOrReplace(fileName, instance);
-        copy(req.getInputStream(), Channels.newOutputStream(outputChannel));
-        return "Done";
+    @PostMapping("/")
+    public String put(HttpServletRequest req) throws IOException{
+        return fileStorageService.uploadFile(req.getInputStream(), req.getHeader("fileName"), "static.roorkee.org");
     }
 
-    /**
-     * Transfer the data from the inputStream to the outputStream. Then close both streams.
-     */
-    private void copy(InputStream input, OutputStream output) throws IOException {
-        try {
-            byte[] buffer = new byte[BUFFER_SIZE];
-            int bytesRead = input.read(buffer);
-            while (bytesRead != -1) {
-                output.write(buffer, 0, bytesRead);
-                bytesRead = input.read(buffer);
-            }
-        } finally {
-            input.close();
-            output.close();
-        }
-    }
 }
