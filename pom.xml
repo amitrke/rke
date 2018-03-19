@@ -51,11 +51,7 @@
 			<artifactId>jul-to-slf4j</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.google.appengine</groupId>
-			<artifactId>appengine-api-1.0-sdk</artifactId>
-			<version>1.9.60</version>
-		</dependency>
+
         <dependency>
             <groupId>com.google.appengine.tools</groupId>
             <artifactId>appengine-gcs-client</artifactId>
@@ -67,6 +63,30 @@
 			<artifactId>google-cloud</artifactId>
 			<version>0.40.0-alpha</version>
 		</dependency>
+		<dependency>                        <!-- Google API client - for stuff that's not in gcloud-->
+			<groupId>com.google.api-client</groupId>
+			<artifactId>google-api-client</artifactId>
+			<version>1.23.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava-jdk5</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>                        <!-- Google+ API Client Library for Java -->
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-plus</artifactId>
+			<version>v1-rev541-1.23.0</version>
+		</dependency>
+
+		<dependency>                        <!-- Google Core Libraries for Java -->
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>  <!-- https://github.com/google/guava/wiki -->
+			<version>23.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
