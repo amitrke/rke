@@ -6,6 +6,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import org.roorkee.rkerestapi.dao.ContentDao;
 import org.roorkee.rkerestapi.entity.Content;
+import org.roorkee.rkerestapi.entity.HelloWorld;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
@@ -21,18 +22,9 @@ public class ContentController {
     private ContentDao dao;
 
     @GetMapping("/hello")
-    public String hello() {
-        return "hello world!";
-    }
-
-    @PostMapping("/testCreate")
-    public String testCreate() {
-        Entity testEntity = new Entity("TestEntity");
-        testEntity.setProperty("name", "Test Name");
-        testEntity.setProperty("value", "Test Value");
-        DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
-        Key k = datastoreService.put(testEntity);
-        return k.toString();
+    public HelloWorld hello() {
+        HelloWorld helloWorld = new HelloWorld();
+        return helloWorld;
     }
 
     @PostMapping(path= "/", consumes = "application/json", produces = "application/json")
