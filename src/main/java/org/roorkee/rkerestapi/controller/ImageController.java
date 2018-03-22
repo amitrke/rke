@@ -29,7 +29,7 @@ public class ImageController {
 
     @PostMapping("/")
     public String put(HttpServletRequest req) throws IOException{
-        return fileStorageService.uploadFile(req.getInputStream(), req.getHeader("fileName"), "static.roorkee.org");
+        return fileStorageService.uploadFile2(req.getInputStream(), req.getHeader("fileName"), "static.roorkee.org");
     }
 
 }

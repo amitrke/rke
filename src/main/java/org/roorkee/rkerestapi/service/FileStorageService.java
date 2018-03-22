@@ -24,6 +24,13 @@ import java.util.Arrays;
 @Service
 public class FileStorageService {
 
+    private final GcsService gcsService = GcsServiceFactory.createGcsService(new RetryParams.Builder()
+            .initialRetryDelayMillis(10)
+            .retryMaxAttempts(10)
+            .totalRetryPeriodMillis(15000)
+            .build());
+    private static final int BUFFER_SIZE = 2 * 1024 * 1024;
+
     private static Storage storage = null;
 
     static {
@@ -48,5 +55,34 @@ public class FileStorageService {
                         is);
         // return the public download link
         return blobInfo.getMediaLink();
+    }
+
+    public String uploadFile2(InputStream is, final String hdrFileName, final String bucketName) throws IOException {
+        //GcsFileOptions instance = GcsFileOptions.getDefaultInstance();
+        GcsFilename fileName = new GcsFilename(bucketName, hdrFileName);
+        GcsOutputChannel outputChannel;
+        GcsFileOptions options = new GcsFileOptions.Builder()
+                //.mimeType(mime)
+                .acl("public-read").build();
+        outputChannel = gcsService.createOrReplace(fileName, options);
+        copy(is, Channels.newOutputStream(outputChannel));
+        return "Done";
+    }
+
+    /**
+     * Transfer the data from the inputStream to the outputStream. Then close both streams.
+     */
+    private void copy(InputStream input, OutputStream output) throws IOException {
+        try {
+            byte[] buffer = new byte[BUFFER_SIZE];
+            int bytesRead = input.read(buffer);
+            while (bytesRead != -1) {
+                output.write(buffer, 0, bytesRead);
+                bytesRead = input.read(buffer);
+            }
+        } finally {
+            input.close();
+            output.close();
+        }
     }
 }
