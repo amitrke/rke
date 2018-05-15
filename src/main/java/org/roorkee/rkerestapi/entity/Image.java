@@ -16,6 +16,11 @@ public class Image extends AbstractEntity {
         this.fileName = fileName;
     }
 
+    public Image(String fileName) {
+        super(new Date(), null, null);
+        this.fileName = fileName;
+    }
+
     @Override
     public Entity toGoogleDatastoreEntity() {
         return null;

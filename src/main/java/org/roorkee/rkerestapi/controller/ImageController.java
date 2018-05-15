@@ -1,5 +1,6 @@
 package org.roorkee.rkerestapi.controller;
 
+import org.roorkee.rkerestapi.entity.Image;
 import org.roorkee.rkerestapi.service.FileStorageService;
 import org.roorkee.rkerestapi.util.RkeException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class ImageController {
     @Autowired FileStorageService fileStorageService;
 
     @PostMapping("/")
-    public String put(HttpServletRequest req){
+    public Image put(HttpServletRequest req){
 
         InputStream fileInputStream;
         try {
@@ -47,7 +48,9 @@ public class ImageController {
             throw new RkeException(new RuntimeException("Filename header missing in request."));
         }
 
-        return fileStorageService.uploadFile2(fileInputStream, req.getHeader(HDR_FILENAME), CLOUD_BUCKET);
+        Image i = fileStorageService.uploadFile2(fileInputStream, req.getHeader(HDR_FILENAME), CLOUD_BUCKET);
+
+        return i;
     }
 
 }

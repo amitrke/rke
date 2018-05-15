@@ -5,6 +5,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.roorkee.rkerestapi.entity.Image;
 import org.roorkee.rkerestapi.util.RkeException;
 import org.springframework.stereotype.Service;
 import com.google.cloud.storage.Acl;
@@ -58,7 +59,7 @@ public class FileStorageService {
         return blobInfo.getMediaLink();
     }
 
-    public String uploadFile2(InputStream is, final String hdrFileName, final String bucketName) {
+    public Image uploadFile2(InputStream is, final String hdrFileName, final String bucketName) {
         GcsFilename fileName = new GcsFilename(bucketName, hdrFileName);
         GcsOutputChannel outputChannel;
         GcsFileOptions options = new GcsFileOptions.Builder()
@@ -71,7 +72,9 @@ public class FileStorageService {
         catch(IOException e){
             throw new RkeException(e);
         }
-        return "Done";
+        Image i = new Image(bucketName+hdrFileName);
+
+        return i;
     }
 
     /**
