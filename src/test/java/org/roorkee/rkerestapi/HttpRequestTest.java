@@ -1,9 +1,13 @@
 package org.roorkee.rkerestapi;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.roorkee.rkerestapi.entity.Image;
@@ -12,12 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.DelegatingServletInputStream;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import javax.servlet.ServletInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -53,9 +59,11 @@ public class HttpRequestTest {
         File file = new File("src/test/java/org/roorkee/rkerestapi/book.png");
         InputStream is = new FileInputStream(file);
 
+        InputStream mocIs = org.mockito.Mockito.mock(DelegatingServletInputStream.class);
+
         Image i = new Image("static.roorkee.orgimg/name.jpg");
 
-        when(fileStorageService.uploadFile2(is, "img/name.jpg", "static.roorkee.org"))
+        when(fileStorageService.uploadFile2(any(InputStream.class), eq("img/name.jpg"), eq("static.roorkee.org")))
                 .thenReturn(i);
 
         MockMultipartFile fstmp = new MockMultipartFile("upload", file.getName(), "multipart/form-data",is);
@@ -66,7 +74,7 @@ public class HttpRequestTest {
 
 
         this.mockMvc.perform(request).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().json("{'message': 'java.lang.RuntimeException: Filename header missing in request.'}"));
+                .andExpect(content().json("{\"owner\":null,\"status\":null,\"keyKind\":null}"));
     }
 
 }

@@ -36,9 +36,9 @@ public class ImageController {
     @PostMapping("/")
     public Image put(HttpServletRequest req){
 
-        InputStream fileInputStream;
+        InputStream inputStream;
         try {
-            fileInputStream = req.getInputStream();
+            inputStream = req.getInputStream();
         }
         catch (IOException e){
             throw new RkeException(e);
@@ -48,7 +48,7 @@ public class ImageController {
             throw new RkeException(new RuntimeException("Filename header missing in request."));
         }
 
-        Image i = fileStorageService.uploadFile2(fileInputStream, req.getHeader(HDR_FILENAME), CLOUD_BUCKET);
+        Image i = fileStorageService.uploadFile2(inputStream, req.getHeader(HDR_FILENAME), CLOUD_BUCKET);
 
         return i;
     }
