@@ -61,13 +61,13 @@ public class HttpRequestTest {
 
         InputStream mocIs = org.mockito.Mockito.mock(DelegatingServletInputStream.class);
 
-        Image i = new Image("static.roorkee.orgimg/name.jpg");
+        Image i = new Image();
+        i.setFileName("static.roorkee.org/img/name.jpg");
 
         when(fileStorageService.uploadFile2(any(InputStream.class), eq("img/name.jpg"), eq("static.roorkee.org")))
                 .thenReturn(i);
 
         MockMultipartFile fstmp = new MockMultipartFile("upload", file.getName(), "multipart/form-data",is);
-        //MockHttpServletRequestBuilder request = post("/api/image/");
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.multipart("/api/image/")
                 .file(fstmp);
         request.header("filename", "img/name.jpg");
@@ -77,4 +77,13 @@ public class HttpRequestTest {
                 .andExpect(content().json("{\"owner\":null,\"status\":null,\"keyKind\":null}"));
     }
 
+    @Test
+    public void createContentShouldWork() throws Exception {
+        String postBody = "{ \"id\": \"crystal\", \"title\": \"Crystal World\", \"imageURL\": \"assets/img/home/crystal_world_haridwar.jpg\", \"description\": \"The Largest amusement park close to Roorkee, it offers a variety of entertainment. Some of its offerings, like water sport, are immensely popular amongst children and grown-ups alike. A must visit and a popular destination for families.\", \"fullText\": \"The Largest amusement park close to Roorkee, it offers a variety of entertainment. Some of its offerings, like water sport, are immensely popular amongst children and grown-ups alike. A must visit and a popular destination for families.\" }";
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/api/content/");
+        request.content(postBody);
+        request.header("Content-Type", "application/json");
+        this.mockMvc.perform(request).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().json("{'message': 'Hello World!'}"));
+    }
 }

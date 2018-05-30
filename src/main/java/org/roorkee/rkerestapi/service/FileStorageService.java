@@ -72,8 +72,8 @@ public class FileStorageService {
         catch(IOException e){
             throw new RkeException(e);
         }
-        Image i = new Image(bucketName+hdrFileName);
-
+        Image i = new Image();
+        i.setFileName(bucketName+hdrFileName);
         return i;
     }
 

@@ -51,8 +51,14 @@
 			<artifactId>jul-to-slf4j</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.20</version>
+			<scope>provided</scope>
+		</dependency>
 
-        <dependency>
+		<dependency>
             <groupId>com.google.appengine.tools</groupId>
             <artifactId>appengine-gcs-client</artifactId>
             <version>0.6</version>
@@ -87,6 +93,18 @@
 			<version>23.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.google.appengine</groupId>
+			<artifactId>appengine-testing</artifactId>
+			<version>1.9.63</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.appengine</groupId>
+			<artifactId>appengine-api-stubs</artifactId>
+			<version>1.9.63</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

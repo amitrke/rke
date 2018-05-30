@@ -1,14 +1,14 @@
 package org.roorkee.rkerestapi.dao;
 
 import com.google.appengine.api.datastore.*;
-import org.roorkee.rkerestapi.entity.IEntity;
+import org.roorkee.rkerestapi.entity.AbstractEntity;
 import org.roorkee.rkerestapi.util.RkeException;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractDao<T extends IEntity> implements InitializingBean{
+public abstract class AbstractDao<T extends AbstractEntity> implements InitializingBean{
 
     private DatastoreService datastore;
 

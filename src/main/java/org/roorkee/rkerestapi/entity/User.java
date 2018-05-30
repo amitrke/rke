@@ -1,51 +1,21 @@
 package org.roorkee.rkerestapi.entity;
 
 import com.google.appengine.api.datastore.Entity;
+import lombok.Data;
 
 import java.util.Map;
 
-public class User implements IEntity {
+@Data
+public class User extends AbstractEntity<String> {
 
-    private String id;
     private String email;
     private String name;
     private String imageURL;
     private String indicator;
 
-    public User() {
-    }
-
-    public User(String id, String email, String name, String imageURL, String indicator) {
-        this.id = id;
-        this.email = email;
-        this.name = name;
-        this.imageURL = imageURL;
-        this.indicator = indicator;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getImageURL() {
-        return imageURL;
-    }
-
-    public String getIndicator() {
-        return indicator;
-    }
-
     @Override
     public Entity toGoogleDatastoreEntity() {
-        Entity gDtaEntity = new Entity(getKeyKind(), this.id);
+        Entity gDtaEntity = new Entity(getKeyKind(), this.getId());
         gDtaEntity.setProperty("email", this.email);
         gDtaEntity.setProperty("name", this.name);
         gDtaEntity.setProperty("indicator", this.indicator);
@@ -55,7 +25,7 @@ public class User implements IEntity {
 
     @Override
     public void setGEntity(Entity entity) {
-        this.id = entity.getKey().getName();
+        this.setId(entity.getKey().getName());
         Map<String, Object> entityProperties = entity.getProperties();
         this.imageURL = (String) entityProperties.get("imageURL");
         this.email = (String) entityProperties.get("email");

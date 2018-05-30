@@ -1,9 +1,15 @@
 package org.roorkee.rkerestapi.entity;
 
 
+import com.google.appengine.api.datastore.Entity;
+import lombok.Data;
+
 import java.util.Date;
 
-public abstract class AbstractEntity implements IEntity {
+@Data
+public abstract class AbstractEntity<T> {
+
+    private T id;
 
     private Date created;
 
@@ -11,30 +17,28 @@ public abstract class AbstractEntity implements IEntity {
 
     private String status;
 
-    public AbstractEntity(Date created, User owner, String status) {
-        this.created = created;
-        this.owner = owner;
-        this.status = status;
+    public Entity toGoogleDatastoreEntity(){
+        Entity gDtaEntity = null;
+        if (this.id instanceof String){
+            gDtaEntity = new Entity(getKeyKind(), (String) this.getId());
+        }
+        else if (this.id instanceof Long){
+            gDtaEntity = new Entity(getKeyKind(), (Long) this.getId());
+        }
+
+        return gDtaEntity;
     }
 
-    public Date getCreated() {
-        return created;
+    public T getId() {
+        return id;
     }
 
-    public User getOwner() {
-        return owner;
+    public void setId(T id) {
+        this.id = id;
     }
 
-    public String getStatus() {
-        return status;
-    }
+    public abstract void setGEntity(Entity entity);
 
-    @Override
-    public String toString() {
-        return "AbstractEntity{" +
-                "created=" + created +
-                ", owner=" + owner +
-                ", status='" + status + '\'' +
-                '}';
-    }
+    public abstract String getKeyKind();
+
 }
