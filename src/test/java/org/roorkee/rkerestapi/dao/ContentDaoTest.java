@@ -8,6 +8,8 @@ import org.roorkee.rkerestapi.entity.Content;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import static org.assertj.core.api.Assertions.assertThat;
+import org.roorkee.rkerestapi.util.RkeException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -29,7 +31,7 @@ public class ContentDaoTest extends AbstractBaseDaoTest<Content> {
     }
 
     @Test
-    public void create() {
+    public void create_positive() {
         Content c = new Content();
         c.setDescription("Test Description");
         c.setTitle("Test Title");
@@ -37,6 +39,21 @@ public class ContentDaoTest extends AbstractBaseDaoTest<Content> {
         c.setFullText("Test Full Text");
         c.setImageURL("Image URL");
         c.setPriority(1);
-        dao.create(c);
+        String out = dao.create(c);
+        assertThat(out).isNotNull();
+    }
+    
+    @Test
+    public void create_negative() {
+        Content c = new Content();
+        String out = null;
+        try{
+            out = dao.create(c);
+        }
+        catch(RkeException e){
+            assertThat(e).isNotNull();
+        }
+
+        assertThat(out).isNull();
     }
 }
