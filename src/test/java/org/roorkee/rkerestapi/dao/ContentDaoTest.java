@@ -32,13 +32,7 @@ public class ContentDaoTest extends AbstractBaseDaoTest<Content> {
 
     @Test
     public void create_positive() {
-        Content c = new Content();
-        c.setDescription("Test Description");
-        c.setTitle("Test Title");
-        c.setId("testId");
-        c.setFullText("Test Full Text");
-        c.setImageURL("Image URL");
-        c.setPriority(1);
+        Content c = createMockContentObj("tContent1");
         String out = dao.create(c);
         assertThat(out).isNotNull();
     }
@@ -55,5 +49,16 @@ public class ContentDaoTest extends AbstractBaseDaoTest<Content> {
         }
 
         assertThat(out).isNull();
+    }
+    
+    private Content createMockContentObj(String id){
+        Content c = new Content();
+        c.setDescription("Test Description "+id);
+        c.setTitle("Test Title "+id);
+        c.setId(id);
+        c.setFullText("Test Full Text "+id);
+        c.setImageURL("Image URL "+id);
+        c.setPriority(1);
+        return c;
     }
 }
