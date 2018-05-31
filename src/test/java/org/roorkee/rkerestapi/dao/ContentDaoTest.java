@@ -33,7 +33,10 @@ public class ContentDaoTest extends AbstractBaseDaoTest<Content> {
         Content c = new Content();
         c.setDescription("Test Description");
         c.setTitle("Test Title");
-
+        c.setId("testId");
+        c.setFullText("Test Full Text");
+        c.setImageURL("Image URL");
+        c.setPriority(1);
         dao.create(c);
     }
 }

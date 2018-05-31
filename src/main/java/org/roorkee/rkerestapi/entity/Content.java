@@ -11,10 +11,19 @@ import java.util.Map;
 @Data
 public class Content extends AbstractEntity<String>{
 
+    @GStoreAttr
     private String title;
+
+    @GStoreAttr
     private String imageURL;
+
+    @GStoreAttr
     private String description;
+
+    @GStoreAttr(type = Text.class)
     private String fullText;
+
+    @GStoreAttr
     private int priority;
 
     @Override
@@ -25,10 +34,7 @@ public class Content extends AbstractEntity<String>{
     @Override
     public Entity toGoogleDatastoreEntity() {
         Entity gDtaEntity = super.toGoogleDatastoreEntity();
-        gDtaEntity.setProperty("imageURL", this.imageURL);
-        gDtaEntity.setProperty("description", this.description);
         gDtaEntity.setProperty("fullText", new Text(this.fullText));
-        gDtaEntity.setProperty("title", this.title);
         return gDtaEntity;
     }
 
