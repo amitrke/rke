@@ -14,10 +14,10 @@ import java.lang.reflect.Method;
 import java.util.Date;
 
 @Data
-public abstract class AbstractEntity<T> {
+public abstract class AbstractEntity {
 
     @GStoreAttr
-    private T id;
+    private Long id;
 
     @GStoreAttr
     private Date created;
@@ -31,15 +31,8 @@ public abstract class AbstractEntity<T> {
     public Entity toGoogleDatastoreEntity(){
 
         Entity gDtaEntity = null;
-        if (this.id instanceof String){
-            gDtaEntity = new Entity(getKeyKind(), (String) this.getId());
-        }
-        else if (this.id instanceof Long){
-            gDtaEntity = new Entity(getKeyKind(), (Long) this.getId());
-        }
-        else {
-            throw new RkeException(new RuntimeException("Unknown ID type"));
-        }
+
+        gDtaEntity = new Entity(getKeyKind(), this.getId());
 
         Field[] fields = this.getClass().getDeclaredFields();
         for(Field field: fields){
@@ -71,15 +64,9 @@ public abstract class AbstractEntity<T> {
         return gDtaEntity;
     }
 
-    public T getId() {
-        return id;
-    }
+    public void setGEntity(Entity entity){
 
-    public void setId(T id) {
-        this.id = id;
     }
-
-    public abstract void setGEntity(Entity entity);
 
     public abstract String getKeyKind();
 

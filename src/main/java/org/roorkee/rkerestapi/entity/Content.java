@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.Map;
 
 @Data
-public class Content extends AbstractEntity<String>{
+public class Content extends AbstractEntity{
 
     @GStoreAttr
     private String title;
@@ -40,11 +40,12 @@ public class Content extends AbstractEntity<String>{
 
     @Override
     public void setGEntity(Entity entity) {
-        this.setId(entity.getKey().getName());
+        this.setId(entity.getKey().getId());
         Map<String, Object> entityProperties = entity.getProperties();
         this.imageURL = (String) entityProperties.get("imageURL");
         this.description = (String) entityProperties.get("description");
         this.title = (String) entityProperties.get("title");
+        this.priority = ((Long)entityProperties.get("priority")).intValue();
         if (entityProperties.get("fullText") instanceof Text){
             this.fullText = ((Text) entityProperties.get("fullText")).getValue();
         }

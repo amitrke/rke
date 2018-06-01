@@ -8,7 +8,7 @@ import lombok.Setter;
 import java.util.Date;
 
 @Data
-public class Image extends AbstractEntity<Long> {
+public class Image extends AbstractEntity {
 
     private String fileName;
 

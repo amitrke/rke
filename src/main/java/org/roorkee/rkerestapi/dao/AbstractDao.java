@@ -17,12 +17,16 @@ public abstract class AbstractDao<T extends AbstractEntity> implements Initializ
         datastore = DatastoreServiceFactory.getDatastoreService();
     }
 
+//    public boolean delete(T entity){
+//        datastore.delete(createKey(entity.getId());
+//    }
+
     public String create(T entity) {
         Key k = datastore.put(entity.toGoogleDatastoreEntity());
         return k.getName();
     }
 
-    public T get(String id) {
+    public T get(Long id) {
         try {
             Entity gEntity = datastore.get(createKey(id));
             T entity = newEntity();
@@ -48,12 +52,11 @@ public abstract class AbstractDao<T extends AbstractEntity> implements Initializ
         return entityList;
     }
 
-    private Key createKey(String id) {
+    private Key createKey(Long id) {
         return KeyFactory.createKey(getKind(), id);
     }
 
     abstract String getKind();
 
     abstract T newEntity();
-
 }

@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.Map;
 
 @Data
-public class User extends AbstractEntity<String> {
+public class User extends AbstractEntity {
 
     private String email;
     private String name;
@@ -25,7 +25,7 @@ public class User extends AbstractEntity<String> {
 
     @Override
     public void setGEntity(Entity entity) {
-        this.setId(entity.getKey().getName());
+        this.setId(entity.getKey().getId());
         Map<String, Object> entityProperties = entity.getProperties();
         this.imageURL = (String) entityProperties.get("imageURL");
         this.email = (String) entityProperties.get("email");

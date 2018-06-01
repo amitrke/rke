@@ -33,7 +33,7 @@ public class ContentController {
     }
 
     @GetMapping(path="/{id}", produces = "application/json")
-    public Content get(@PathVariable String id) {
+    public Content get(@PathVariable Long id) {
         return dao.get(id);
     }
 

@@ -19,7 +19,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/{id}", produces = "application/json")
-    public User get(@PathVariable String id){
+    public User get(@PathVariable Long id){
         return dao.get(id);
     }
 }
