@@ -16,12 +16,16 @@ import java.util.Date;
 @Data
 public abstract class AbstractEntity<T> {
 
+    @GStoreAttr
     private T id;
 
+    @GStoreAttr
     private Date created;
 
-    private User owner;
+    @GStoreAttr
+    private String ownerUserId;
 
+    @GStoreAttr
     private String status;
 
     public Entity toGoogleDatastoreEntity(){

@@ -50,7 +50,27 @@ public class ContentDaoTest extends AbstractBaseDaoTest<Content> {
 
         assertThat(out).isNull();
     }
-    
+
+    @Test
+    public void get_positive(){
+        String id = "tContent1";
+        Content c = createMockContentObj(id);
+        String out = dao.create(c);
+        assertThat(out).isNotNull();
+        Content dbContent = dao.get(id);
+        assertThat(dbContent).isEqualToComparingFieldByField(c);
+    }
+
+    @Test
+    public void get_negative(){
+        try {
+            Content dbContent = dao.get("tContent2");
+        }
+        catch(RkeException e){
+            assertThat(e).isNotNull();
+        }
+    }
+
     private Content createMockContentObj(String id){
         Content c = new Content();
         c.setDescription("Test Description "+id);
