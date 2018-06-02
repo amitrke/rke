@@ -34,7 +34,7 @@ public class Content extends AbstractEntity{
     @Override
     public Entity toGoogleDatastoreEntity() {
         Entity gDtaEntity = super.toGoogleDatastoreEntity();
-        gDtaEntity.setProperty("fullText", new Text(this.fullText));
+        if (this.fullText != null) gDtaEntity.setProperty("fullText", new Text(this.fullText));
         return gDtaEntity;
     }
 

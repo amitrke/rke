@@ -14,7 +14,7 @@ public class UserController {
     private UserDao dao;
 
     @PostMapping(path = "/")
-    public String create(@RequestBody User user){
+    public long create(@RequestBody User user){
         return dao.create(user);
     }
 

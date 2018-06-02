@@ -32,7 +32,7 @@ public abstract class AbstractEntity {
 
         Entity gDtaEntity = null;
 
-        gDtaEntity = new Entity(getKeyKind(), this.getId());
+        gDtaEntity = new Entity(getKeyKind());
 
         Field[] fields = this.getClass().getDeclaredFields();
         for(Field field: fields){

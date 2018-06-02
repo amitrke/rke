@@ -33,31 +33,24 @@ public class ContentDaoTest extends AbstractBaseDaoTest<Content> {
     @Test
     public void create_positive() {
         Content c = createMockContentObj(1L);
-        String out = dao.create(c);
-        assertThat(out).isNotNull();
+        long out = dao.create(c);
+        assertThat(out).isPositive();
     }
     
     @Test
     public void create_negative() {
         Content c = new Content();
-        String out = null;
-        try{
-            out = dao.create(c);
-        }
-        catch(RkeException e){
-            assertThat(e).isNotNull();
-        }
-
-        assertThat(out).isNull();
+        long out = dao.create(c);
+        assertThat(out).isPositive();
     }
 
     @Test
     public void get_positive(){
-        Long id = 1L;
-        Content c = createMockContentObj(id);
-        String out = dao.create(c);
+        Content c = createMockContentObj(1L);
+        long out = dao.create(c);
+        c.setId(out);
         assertThat(out).isNotNull();
-        Content dbContent = dao.get(id);
+        Content dbContent = dao.get(out);
         assertThat(dbContent).isEqualToComparingFieldByField(c);
     }
 
@@ -83,7 +76,6 @@ public class ContentDaoTest extends AbstractBaseDaoTest<Content> {
         Content c = new Content();
         c.setDescription("Test Description "+id);
         c.setTitle("Test Title "+id);
-        c.setId(id);
         c.setFullText("Test Full Text "+id);
         c.setImageURL("Image URL "+id);
         c.setPriority(1);

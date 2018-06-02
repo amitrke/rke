@@ -28,7 +28,7 @@ public class ContentController {
     }
 
     @PostMapping(path= "/", consumes = "application/json", produces = "application/json")
-    public String create(@RequestBody Content content) {
+    public long create(@RequestBody Content content) {
         return dao.create(content);
     }
 
