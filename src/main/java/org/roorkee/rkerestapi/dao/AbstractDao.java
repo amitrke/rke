@@ -17,9 +17,9 @@ public abstract class AbstractDao<T extends AbstractEntity> implements Initializ
         datastore = DatastoreServiceFactory.getDatastoreService();
     }
 
-//    public boolean delete(T entity){
-//        datastore.delete(createKey(entity.getId());
-//    }
+    public void delete(long id){
+        datastore.delete(createKey(id));
+    }
 
     public long create(T entity) {
         Key k = datastore.put(entity.toGoogleDatastoreEntity());

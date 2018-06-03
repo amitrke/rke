@@ -64,10 +64,14 @@ public class ContentDaoTest extends AbstractBaseDaoTest<Content> {
 
     @Test
     public void delete_positive(){
+        Content c = createMockContentObj(1L);
+        long out = dao.create(c);
+        assertThat(out).isNotNull();
+        dao.delete(out);
         try {
-            Content dbContent = dao.get(2L);
+            Content dbContent = dao.get(out);
         }
-        catch(RkeException e){
+        catch (RkeException e){
             assertThat(e).isNotNull();
         }
     }
