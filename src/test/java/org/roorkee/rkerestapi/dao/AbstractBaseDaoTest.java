@@ -24,13 +24,13 @@ public abstract class AbstractBaseDaoTest<T extends AbstractEntity> {
 
     protected void create_positive() {
         T obj = createMockObj(1L);
-        long out = getDao().create(obj);
+        long out = getDao().save(obj);
         assertThat(out).isPositive();
     }
 
     protected void get_positive(){
         T obj = createMockObj(1L);
-        long out = getDao().create(obj);
+        long out = getDao().save(obj);
         obj.setId(out);
         assertThat(out).isNotNull();
         AbstractEntity dbContent = getDao().get(out);
@@ -39,7 +39,7 @@ public abstract class AbstractBaseDaoTest<T extends AbstractEntity> {
 
     protected void delete_positive(){
         T obj = createMockObj(1L);
-        long out = getDao().create(obj);
+        long out = getDao().save(obj);
         assertThat(out).isNotNull();
         getDao().delete(out);
         try {

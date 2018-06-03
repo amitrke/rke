@@ -21,7 +21,7 @@ public abstract class AbstractDao<T extends AbstractEntity> implements Initializ
         datastore.delete(createKey(id));
     }
 
-    public long create(T entity) {
+    public long save(T entity) {
         Key k = datastore.put(entity.toGoogleDatastoreEntity());
         return k.getId();
     }

@@ -15,7 +15,7 @@ public class UserController {
 
     @PostMapping(path = "/")
     public long create(@RequestBody User user){
-        return dao.create(user);
+        return dao.save(user);
     }
 
     @GetMapping(path = "/{id}", produces = "application/json")

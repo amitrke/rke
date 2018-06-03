@@ -29,7 +29,7 @@ public class ContentController {
 
     @PostMapping(path= "/", consumes = "application/json", produces = "application/json")
     public long create(@RequestBody Content content) {
-        return dao.create(content);
+        return dao.save(content);
     }
 
     @GetMapping(path="/{id}", produces = "application/json")

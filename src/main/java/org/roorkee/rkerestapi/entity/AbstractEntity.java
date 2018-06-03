@@ -31,8 +31,13 @@ public abstract class AbstractEntity {
     public Entity toGoogleDatastoreEntity(){
 
         Entity gDtaEntity = null;
+        if (this.getId() != null){
+            gDtaEntity = new Entity(getKeyKind(), getId());
+        }
+        else{
+            gDtaEntity = new Entity(getKeyKind());
+        }
 
-        gDtaEntity = new Entity(getKeyKind());
 
         Field[] fields = this.getClass().getDeclaredFields();
         for(Field field: fields){
