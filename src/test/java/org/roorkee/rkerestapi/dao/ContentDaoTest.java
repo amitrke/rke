@@ -32,9 +32,7 @@ public class ContentDaoTest extends AbstractBaseDaoTest<Content> {
 
     @Test
     public void create_positive() {
-        Content c = createMockContentObj(1L);
-        long out = dao.create(c);
-        assertThat(out).isPositive();
+        super.create_positive();
     }
     
     @Test
@@ -46,37 +44,16 @@ public class ContentDaoTest extends AbstractBaseDaoTest<Content> {
 
     @Test
     public void get_positive(){
-        Content c = createMockContentObj(1L);
-        long out = dao.create(c);
-        c.setId(out);
-        assertThat(out).isNotNull();
-        Content dbContent = dao.get(out);
-        assertThat(dbContent).isEqualToComparingFieldByField(c);
+       super.get_positive();
     }
-
-//    @Test
-//    public void get_negative(){
-//        String id = "tContent1";
-//        Content c = createMockContentObj(1L);
-//        String out = dao.create(c);
-//        dao.
-//    }
 
     @Test
     public void delete_positive(){
-        Content c = createMockContentObj(1L);
-        long out = dao.create(c);
-        assertThat(out).isNotNull();
-        dao.delete(out);
-        try {
-            Content dbContent = dao.get(out);
-        }
-        catch (RkeException e){
-            assertThat(e).isNotNull();
-        }
+        super.delete_positive();
     }
 
-    private Content createMockContentObj(Long id){
+    @Override
+    protected Content createMockObj(long id) {
         Content c = new Content();
         c.setDescription("Test Description "+id);
         c.setTitle("Test Title "+id);
@@ -84,5 +61,10 @@ public class ContentDaoTest extends AbstractBaseDaoTest<Content> {
         c.setImageURL("Image URL "+id);
         c.setPriority(1);
         return c;
+    }
+
+    @Override
+    protected AbstractDao getDao() {
+        return dao;
     }
 }
