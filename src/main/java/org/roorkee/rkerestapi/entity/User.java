@@ -7,21 +7,18 @@ import java.util.Map;
 
 @Data
 public class User extends AbstractEntity {
-
+    
+    @GStoreAttr
     private String email;
+    
+    @GStoreAttr
     private String name;
+    
+    @GStoreAttr
     private String imageURL;
+    
+    @GStoreAttr
     private String indicator;
-
-    @Override
-    public Entity toGoogleDatastoreEntity() {
-        Entity gDtaEntity = new Entity(getKeyKind(), this.getId());
-        gDtaEntity.setProperty("email", this.email);
-        gDtaEntity.setProperty("name", this.name);
-        gDtaEntity.setProperty("indicator", this.indicator);
-        gDtaEntity.setProperty("imageURL", this.imageURL);
-        return gDtaEntity;
-    }
 
     @Override
     public void setGEntity(Entity entity) {
