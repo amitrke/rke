@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.beans.factory.annotation.Autowired;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -32,6 +33,31 @@ public class UserDaoTest extends AbstractBaseDaoTest<User>{
     @Test
     public void create_positive() {
         super.create_positive();
+    }
+    
+    @Test
+    public void get_positive(){
+       super.get_positive();
+    }
+    
+    @Test
+    public void delete_positive(){
+        super.delete_positive();
+    }
+    
+    @Test
+    public void edit_positive(){
+        User obj = createMockObj(1L);
+        long out = getDao().save(obj);
+        obj.setId(out);
+        assertThat(out).isNotNull();
+        User dbContent = dao.get(out);
+        assertThat(dbContent).isEqualToComparingFieldByField(obj);
+        dbContent.setName("Test Name Edited");
+        long out2 = dao.save(dbContent);
+        assertThat(out2).isEqualTo(out);
+        User dbContent2 = dao.get(out2);
+        assertThat(dbContent2.getName()).isEqualToIgnoringCase("Test Name Edited");
     }
     
     @Override
