@@ -7,9 +7,11 @@ import org.roorkee.rkerestapi.entity.AbstractEntity;
 import org.roorkee.rkerestapi.entity.Content;
 import org.roorkee.rkerestapi.util.RkeException;
 
+import java.util.Date;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
-public abstract class AbstractBaseDaoTest<T extends AbstractEntity> {
+public abstract class AbstractBaseDaoTest {
 
     private final LocalServiceTestHelper helper =
             new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
@@ -23,13 +25,13 @@ public abstract class AbstractBaseDaoTest<T extends AbstractEntity> {
     }
 
     protected void create_positive() {
-        T obj = createMockObj(1L);
+        AbstractEntity obj = createMockObj(1L);
         long out = getDao().save(obj);
         assertThat(out).isPositive();
     }
 
     protected void get_positive(){
-        T obj = createMockObj(1L);
+        AbstractEntity obj = createMockObj(1L);
         long out = getDao().save(obj);
         obj.setId(out);
         assertThat(out).isNotNull();
@@ -38,7 +40,7 @@ public abstract class AbstractBaseDaoTest<T extends AbstractEntity> {
     }
 
     protected void delete_positive(){
-        T obj = createMockObj(1L);
+        AbstractEntity obj = createMockObj(1L);
         long out = getDao().save(obj);
         assertThat(out).isNotNull();
         getDao().delete(out);
@@ -50,7 +52,13 @@ public abstract class AbstractBaseDaoTest<T extends AbstractEntity> {
         }
     }
 
-    protected abstract T createMockObj(long id);
+    protected AbstractEntity createMockObj(long id){
+        AbstractEntity entity = getDao().newEntity();
+        entity.setCreated(new Date());
+        entity.setStatus("Active");
+        entity.setUserId(1L);
+        return entity;
+    }
 
     protected abstract AbstractDao getDao();
 }

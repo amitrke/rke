@@ -14,7 +14,7 @@ import org.roorkee.rkerestapi.util.RkeException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ContentDaoTest extends AbstractBaseDaoTest<Content> {
+public class ContentDaoTest extends AbstractBaseDaoTest {
 
     @Autowired
     private ContentDao dao;
@@ -70,12 +70,12 @@ public class ContentDaoTest extends AbstractBaseDaoTest<Content> {
 
     @Override
     protected Content createMockObj(long id) {
-        Content c = new Content();
+        Content c = (Content) super.createMockObj(id);
         c.setDescription("Test Description "+id);
         c.setTitle("Test Title "+id);
         c.setFullText("Test Full Text "+id);
         c.setImageURL("Image URL "+id);
-        c.setPriority(1);
+        c.setPriority(1L);
         return c;
     }
 

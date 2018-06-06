@@ -24,12 +24,7 @@ public class Content extends AbstractEntity{
     private String fullText;
 
     @GStoreAttr
-    private int priority;
-
-    @Override
-    public String getKeyKind() {
-        return "Content";
-    }
+    private Long priority;
 
     @Override
     public Entity toGoogleDatastoreEntity() {
@@ -40,12 +35,8 @@ public class Content extends AbstractEntity{
 
     @Override
     public void setGEntity(Entity entity) {
-        this.setId(entity.getKey().getId());
+        super.setGEntity(entity);
         Map<String, Object> entityProperties = entity.getProperties();
-        this.imageURL = (String) entityProperties.get("imageURL");
-        this.description = (String) entityProperties.get("description");
-        this.title = (String) entityProperties.get("title");
-        this.priority = ((Long)entityProperties.get("priority")).intValue();
         if (entityProperties.get("fullText") instanceof Text){
             this.fullText = ((Text) entityProperties.get("fullText")).getValue();
         }

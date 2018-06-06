@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserDaoTest extends AbstractBaseDaoTest<User>{
+public class UserDaoTest extends AbstractBaseDaoTest{
     
     @Autowired
     private UserDao dao;
@@ -62,7 +62,7 @@ public class UserDaoTest extends AbstractBaseDaoTest<User>{
     
     @Override
     protected User createMockObj(long id) {
-        User u = new User();
+        User u = (User) super.createMockObj(id);
         u.setEmail("abc@def.com");
         u.setName("Test Name");
         u.setImageURL("/abc/def/a.jpg");

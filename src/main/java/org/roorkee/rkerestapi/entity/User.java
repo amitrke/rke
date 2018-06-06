@@ -19,19 +19,4 @@ public class User extends AbstractEntity {
     
     @GStoreAttr
     private String indicator;
-
-    @Override
-    public void setGEntity(Entity entity) {
-        this.setId(entity.getKey().getId());
-        Map<String, Object> entityProperties = entity.getProperties();
-        this.imageURL = (String) entityProperties.get("imageURL");
-        this.email = (String) entityProperties.get("email");
-        this.name = (String) entityProperties.get("name");
-        this.indicator = (String) entityProperties.get("indicator");
-    }
-
-    @Override
-    public String getKeyKind() {
-        return "User";
-    }
 }

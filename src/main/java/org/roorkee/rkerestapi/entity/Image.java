@@ -10,20 +10,7 @@ import java.util.Date;
 @Data
 public class Image extends AbstractEntity {
 
+    @GStoreAttr
     private String fileName;
 
-    @Override
-    public Entity toGoogleDatastoreEntity() {
-        return null;
-    }
-
-    @Override
-    public void setGEntity(Entity entity) {
-
-    }
-
-    @Override
-    public String getKeyKind() {
-        return null;
-    }
 }
