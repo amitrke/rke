@@ -126,6 +126,11 @@
 					<forkCount>0</forkCount>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.1</version>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -157,6 +162,17 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</pluginRepository>
+
+		<pluginRepository>
+			<id>central</id>
+			<name>Central Repository</name>
+			<url>http://repo1.maven.org/maven2/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+
+
 		<pluginRepository>
 			<id>spring-milestones</id>
 			<name>Spring Milestones</name>

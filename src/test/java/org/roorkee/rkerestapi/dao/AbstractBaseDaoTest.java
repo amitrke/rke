@@ -2,9 +2,7 @@ package org.roorkee.rkerestapi.dao;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import org.junit.Test;
 import org.roorkee.rkerestapi.entity.AbstractEntity;
-import org.roorkee.rkerestapi.entity.Content;
 import org.roorkee.rkerestapi.util.RkeException;
 
 import java.util.Date;

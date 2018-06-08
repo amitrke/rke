@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.Map;
 
 @Data
-public class Content extends AbstractEntity{
+public class Article extends AbstractEntity{
 
     @GStoreAttr
     private String title;
