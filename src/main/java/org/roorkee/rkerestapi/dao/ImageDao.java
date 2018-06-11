@@ -1,7 +1,9 @@
 package org.roorkee.rkerestapi.dao;
 
 import org.roorkee.rkerestapi.entity.Image;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ImageDao extends AbstractDao<Image> {
 
     @Override
@@ -12,6 +14,6 @@ public class ImageDao extends AbstractDao<Image> {
 
     @Override
     Image newEntity() {
-        return null;
+        return new Image();
     }
 }
