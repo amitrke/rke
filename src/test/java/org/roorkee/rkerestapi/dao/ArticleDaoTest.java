@@ -12,10 +12,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ContentDaoTest extends AbstractBaseDaoTest {
+public class ArticleDaoTest extends AbstractBaseDaoTest {
 
     @Autowired
-    private ContentDao dao;
+    private ArticleDao dao;
 
     @Override
     @Before

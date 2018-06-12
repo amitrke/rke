@@ -4,7 +4,7 @@ import org.roorkee.rkerestapi.entity.Article;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ContentDao extends AbstractDao<Article>{
+public class ArticleDao extends AbstractDao<Article>{
 
     @Override
     String getKind() {
