@@ -3,3 +3,7 @@ target/
 .DS_Store
 projectFilesBackup/
 
+#Eclipse
+.settings
+.classpath
+.project
