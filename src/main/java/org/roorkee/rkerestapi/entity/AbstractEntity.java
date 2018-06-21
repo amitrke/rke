@@ -14,6 +14,8 @@ import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.Map;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 public abstract class AbstractEntity {
 
@@ -24,6 +26,7 @@ public abstract class AbstractEntity {
     private Date created;
 
     @GStoreAttr
+    @NotNull
     private Long userId;
 
     @GStoreAttr

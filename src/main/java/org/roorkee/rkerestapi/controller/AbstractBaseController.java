@@ -2,27 +2,46 @@ package org.roorkee.rkerestapi.controller;
 
 import org.roorkee.rkerestapi.dao.AbstractDao;
 import org.roorkee.rkerestapi.entity.AbstractEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+
+import javax.validation.Valid;
 
 public abstract class AbstractBaseController<T extends AbstractEntity> {
 	
 	@PostMapping(path= "/", consumes = "application/json", produces = "application/json")
-    Long save(T entity) {
-		return getDao().save(entity);
+    ResponseEntity<StringResponse> save(@RequestBody @Valid T entity) {
+		Long id = getDao().save(entity);
+		StringResponse sr = new StringResponse();
+		sr.setResponse(id.toString());
+		return new ResponseEntity<StringResponse>(sr, HttpStatus.OK);
 	}
 	
 	@GetMapping(path="/", produces = "application/json")
-    abstract List<T> list();
+	ResponseEntity<List<T>> list(){
+		return new ResponseEntity<List<T>>(getDao().list(), HttpStatus.OK);
+	}
 	
 	@GetMapping(path="/{id}", produces = "application/json")
-    abstract T get(Long id);
+	ResponseEntity<T> get(@PathVariable Long id) {
+		T t = getDao().get(id);
+		return new ResponseEntity<T>(t, HttpStatus.OK);
+	}
 	
 	@DeleteMapping(path="/{id}")
-    abstract void delete(Long id);
+    ResponseEntity<StringResponse> delete(@PathVariable Long id){
+		getDao().delete(id);
+		StringResponse sr = new StringResponse();
+		sr.setResponse(id.toString());
+		return new ResponseEntity<StringResponse>(sr, HttpStatus.OK);
+	}
 	
 	abstract AbstractDao<T> getDao();
 }

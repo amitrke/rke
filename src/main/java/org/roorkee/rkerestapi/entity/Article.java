@@ -1,29 +1,35 @@
 package org.roorkee.rkerestapi.entity;
 
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.Text;
-import lombok.Data;
-
-import java.util.Date;
 import java.util.Map;
+
+import javax.validation.constraints.NotNull;
+
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Text;
+
+import lombok.Data;
 
 @Data
 public class Article extends AbstractEntity{
 
     @GStoreAttr
+    @NotNull
     private String title;
 
     @GStoreAttr
+    @NotNull
     private String imageURL;
 
     @GStoreAttr
+    @NotNull
     private String description;
 
     @GStoreAttr(type = Text.class)
+    @NotNull
     private String fullText;
 
     @GStoreAttr
+    @NotNull
     private Long priority;
 
     @Override
