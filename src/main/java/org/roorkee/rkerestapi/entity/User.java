@@ -1,9 +1,6 @@
 package org.roorkee.rkerestapi.entity;
 
-import com.google.appengine.api.datastore.Entity;
 import lombok.Data;
-
-import java.util.Map;
 
 @Data
 public class User extends AbstractEntity {
@@ -19,4 +16,12 @@ public class User extends AbstractEntity {
     
     @GStoreAttr
     private String indicator;
+
+	@Override
+	public void mockObj() {
+		super.mockObj();
+		email = "abc@def.com";
+		name = "Test Name";
+		imageURL = "/abc/def/a.jpg";
+	}
 }

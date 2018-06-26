@@ -20,8 +20,6 @@ public abstract class AbstractBaseControllerTest<T extends AbstractEntity> {
 	
 	protected T mockEntity;
 	protected String apiURL;
-	
-    public abstract void test_post();
     
     ObjectMapper mapper;
     

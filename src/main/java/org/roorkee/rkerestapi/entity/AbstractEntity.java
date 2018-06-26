@@ -109,5 +109,10 @@ public abstract class AbstractEntity {
     public String getKeyKind(){
         return this.getClass().getSimpleName();
     }
-
+    
+    public void mockObj() {
+    	status = "Active";
+    	userId = 1L;
+    	created = new Date();
+    }
 }
