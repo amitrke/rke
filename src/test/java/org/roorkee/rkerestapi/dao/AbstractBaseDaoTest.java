@@ -1,19 +1,20 @@
 package org.roorkee.rkerestapi.dao;
 
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.roorkee.rkerestapi.entity.AbstractEntity;
 import org.roorkee.rkerestapi.util.RkeException;
 
-import java.util.Date;
+import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-public abstract class AbstractBaseDaoTest {
+public abstract class AbstractBaseDaoTest<T extends AbstractEntity> {
 
     private final LocalServiceTestHelper helper =
             new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
-
+    
+    protected T mockEntity;
+    
     protected void setUp() throws Exception{
         helper.setUp();
     }
@@ -23,40 +24,29 @@ public abstract class AbstractBaseDaoTest {
     }
 
     protected void create_positive() {
-        AbstractEntity obj = createMockObj(1L);
-        long out = getDao().save(obj);
+        long out = getDao().save(mockEntity);
         assertThat(out).isPositive();
     }
 
     protected void get_positive(){
-        AbstractEntity obj = createMockObj(1L);
-        long out = getDao().save(obj);
-        obj.setId(out);
+        long out = getDao().save(mockEntity);
+        mockEntity.setId(out);
         assertThat(out).isNotNull();
         AbstractEntity dbContent = getDao().get(out);
-        assertThat(dbContent).isEqualToComparingFieldByField(obj);
+        assertThat(dbContent).isEqualToComparingFieldByField(mockEntity);
     }
 
     protected void delete_positive(){
-        AbstractEntity obj = createMockObj(1L);
-        long out = getDao().save(obj);
+        long out = getDao().save(mockEntity);
         assertThat(out).isNotNull();
         getDao().delete(out);
         try {
-            AbstractEntity dbContent = getDao().get(out);
+            getDao().get(out);
         }
         catch (RkeException e){
             assertThat(e).isNotNull();
         }
     }
 
-    protected AbstractEntity createMockObj(long id){
-        AbstractEntity entity = getDao().newEntity();
-        entity.setCreated(new Date());
-        entity.setStatus("Active");
-        entity.setUserId(1L);
-        return entity;
-    }
-
-    protected abstract AbstractDao getDao();
+    protected abstract AbstractDao<T> getDao();
 }

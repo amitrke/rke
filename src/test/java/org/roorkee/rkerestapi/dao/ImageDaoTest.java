@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.roorkee.rkerestapi.entity.AbstractEntity;
 import org.roorkee.rkerestapi.entity.Image;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ImageDaoTest extends AbstractBaseDaoTest{
+public class ImageDaoTest extends AbstractBaseDaoTest<Image>{
 
     @Autowired
     private ImageDao dao;
@@ -21,6 +20,8 @@ public class ImageDaoTest extends AbstractBaseDaoTest{
     @Before
     public void setUp() throws Exception {
         super.setUp();
+        mockEntity = new Image();
+        mockEntity.mockObj();
     }
 
     @Override
@@ -30,7 +31,7 @@ public class ImageDaoTest extends AbstractBaseDaoTest{
     }
 
     @Override
-    protected AbstractDao getDao() {
+    protected AbstractDao<Image> getDao() {
         return dao;
     }
 
@@ -47,12 +48,5 @@ public class ImageDaoTest extends AbstractBaseDaoTest{
     @Test
     public void delete_positive(){
         super.delete_positive();
-    }
-
-    @Override
-    protected Image createMockObj(long id) {
-        Image image = (Image) super.createMockObj(id);
-        image.setFileName("file.jpeg");
-        return image;
     }
 }

@@ -50,4 +50,14 @@ public class Article extends AbstractEntity{
             this.fullText = (String) entityProperties.get("fullText");
         }
     }
+
+	@Override
+	public void mockObj() {
+		super.mockObj();
+		description = "Test Description";
+		title = "Test Title";
+		fullText = "Test Full Text";
+		imageURL = "/abc/def/a.jpg";
+        priority = 1L;
+	}
 }

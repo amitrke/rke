@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ArticleDaoTest extends AbstractBaseDaoTest {
+public class ArticleDaoTest extends AbstractBaseDaoTest<Article> {
 
     @Autowired
     private ArticleDao dao;
@@ -21,6 +21,8 @@ public class ArticleDaoTest extends AbstractBaseDaoTest {
     @Before
     public void setUp() throws Exception {
         super.setUp();
+        mockEntity = new Article();
+        mockEntity.mockObj();
     }
 
     @Override
@@ -53,12 +55,11 @@ public class ArticleDaoTest extends AbstractBaseDaoTest {
 
     @Test
     public void edit_positive(){
-        Article obj = createMockObj(1L);
-        long out = getDao().save(obj);
-        obj.setId(out);
+        long out = dao.save(mockEntity);
+        mockEntity.setId(out);
         assertThat(out).isNotNull();
         Article dbContent = dao.get(out);
-        assertThat(dbContent).isEqualToComparingFieldByField(obj);
+        assertThat(dbContent).isEqualToComparingFieldByField(mockEntity);
         dbContent.setDescription("Test Description Edited");
         long out2 = dao.save(dbContent);
         assertThat(out2).isEqualTo(out);
@@ -67,18 +68,7 @@ public class ArticleDaoTest extends AbstractBaseDaoTest {
     }
 
     @Override
-    protected Article createMockObj(long id) {
-        Article c = (Article) super.createMockObj(id);
-        c.setDescription("Test Description "+id);
-        c.setTitle("Test Title "+id);
-        c.setFullText("Test Full Text "+id);
-        c.setImageURL("Image URL "+id);
-        c.setPriority(1L);
-        return c;
-    }
-
-    @Override
-    protected AbstractDao getDao() {
+    protected AbstractDao<Article> getDao() {
         return dao;
     }
 }

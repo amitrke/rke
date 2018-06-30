@@ -24,7 +24,9 @@ public class ArticleControllerTest extends AbstractBaseControllerTest<Article> {
     
     @Before
     public void setup() {
-    	mockEntity = createMockEntity();
+    	Article article = new Article();
+    	article.mockObj();
+    	mockEntity = article;
     	when(dao.save(any(Article.class))).thenReturn(1L);
     	when(dao.get(1L)).thenReturn(mockEntity);
     	apiURL = "/api/articles/";
@@ -39,17 +41,6 @@ public class ArticleControllerTest extends AbstractBaseControllerTest<Article> {
 	public void getPositive() throws Exception {
 		super.getPositive();
 	}
-
-	private Article createMockEntity() {
-    	Article c = new Article();
-        c.setDescription("Test Description ");
-        c.setUserId(1L);
-        c.setTitle("Test Title ");
-        c.setFullText("Test Full Text ");
-        c.setImageURL("Image URL ");
-        c.setPriority(1L);
-        return c;
-    }
 
 	@Override
 	AbstractDao<Article> getDao() {

@@ -26,7 +26,7 @@ public class UserControllerTest extends AbstractBaseControllerTest<User>{
     public void setup() {
 		mockEntity = new User();
 		mockEntity.mockObj();
-		apiURL = "/api/articles/";
+		apiURL = "/api/users/";
 		when(dao.save(any(User.class))).thenReturn(1L);
     	when(dao.get(1L)).thenReturn(mockEntity);
 	}
