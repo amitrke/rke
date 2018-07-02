@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 public abstract class AbstractBaseControllerTest<T extends AbstractEntity> {
 	
@@ -25,10 +26,10 @@ public abstract class AbstractBaseControllerTest<T extends AbstractEntity> {
     
     public void setup() {
     	mapper = new ObjectMapper();
+    	mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
     
     public void createPositive() throws Exception{
-    	ObjectMapper mapper = new ObjectMapper();
         String postBody = mapper.writeValueAsString(mockEntity);
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(apiURL);
         request.content(postBody);
@@ -38,7 +39,6 @@ public abstract class AbstractBaseControllerTest<T extends AbstractEntity> {
     }
     
     public void getPositive() throws Exception {
-    	ObjectMapper mapper = new ObjectMapper();
     	String postBody = mapper.writeValueAsString(mockEntity);
     	MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(apiURL+"1");
     	this.mockMvc.perform(request).andDo(print()).andExpect(status().isOk())

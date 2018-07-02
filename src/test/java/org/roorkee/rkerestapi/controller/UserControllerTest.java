@@ -24,6 +24,7 @@ public class UserControllerTest extends AbstractBaseControllerTest<User>{
 	
 	@Before
     public void setup() {
+		super.setup();
 		mockEntity = new User();
 		mockEntity.mockObj();
 		apiURL = "/api/users/";

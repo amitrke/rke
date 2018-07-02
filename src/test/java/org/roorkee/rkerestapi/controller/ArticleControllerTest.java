@@ -24,6 +24,7 @@ public class ArticleControllerTest extends AbstractBaseControllerTest<Article> {
     
     @Before
     public void setup() {
+    	super.setup();
     	Article article = new Article();
     	article.mockObj();
     	mockEntity = article;
