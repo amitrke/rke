@@ -40,6 +40,6 @@ jobs:
           name: Set Google cloud project id
           command: gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
 
-      - run:
-          name: Deploy to Google Appengine
-          command: mvn -DskipTests appengine:deploy
+      #- run:
+      #    name: Deploy to Google Appengine
+      #    command: mvn -DskipTests appengine:deploy
