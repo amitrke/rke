@@ -1,0 +1,4 @@
+POST http://localhost:8080/api/articles/
+Content-Type: application/json
+
+{"userId":1,"status":"Active","imageURL":"/abc/def/a.jpg"}
