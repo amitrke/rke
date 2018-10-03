@@ -2,6 +2,7 @@ package org.roorkee.rkerestapi.entity;
 
 
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Query;
 import lombok.Data;
 import org.roorkee.rkerestapi.util.RkeException;
 
@@ -11,7 +12,9 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.constraints.NotNull;
@@ -31,6 +34,37 @@ public abstract class AbstractEntity {
 
     @GStoreAttr
     private String status;
+
+    public List<Query.Filter> getDatastoreFilter(){
+        List<Query.Filter> filter = new ArrayList<Query.Filter>();
+
+        Field[] fields = this.getClass().getDeclaredFields();
+        for(Field field: fields){
+            if (field.isAnnotationPresent(GStoreAttr.class)){
+                Annotation annotation = field.getAnnotation(GStoreAttr.class);
+                GStoreAttr gStoreAttr = (GStoreAttr) annotation;
+                if (gStoreAttr.type().equals(Object.class)){
+                    try {
+                        PropertyDescriptor propertyDescriptor = new PropertyDescriptor(field.getName(), this.getClass());
+                        Object variableValue = propertyDescriptor.getReadMethod().invoke(this);
+                        if (variableValue != null) {
+                            filter.add(new Query.FilterPredicate(field.getName(), Query.FilterOperator.EQUAL, variableValue));
+                        }
+                    }
+                    catch (IllegalAccessException e){
+                        throw new RkeException(e);
+                    }
+                    catch (IntrospectionException e){
+                        throw new RkeException(e);
+                    }
+                    catch (InvocationTargetException e){
+                        throw new RkeException(e);
+                    }
+                }
+            }
+        }
+        return filter;
+    }
 
     public Entity toGoogleDatastoreEntity(){
 

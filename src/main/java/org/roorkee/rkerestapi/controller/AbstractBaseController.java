@@ -23,6 +23,12 @@ public abstract class AbstractBaseController<T extends AbstractEntity> {
 		sr.setResponse(id.toString());
 		return new ResponseEntity<StringResponse>(sr, HttpStatus.OK);
 	}
+
+	@PostMapping(path= "/search", consumes = "application/json", produces = "application/json")
+	ResponseEntity<List<T>> search(@RequestBody T entity) {
+		List<T> results = getDao().search(entity);
+		return new ResponseEntity<List<T>>(results, HttpStatus.OK);
+	}
 	
 	@GetMapping(path="/", produces = "application/json")
 	ResponseEntity<List<T>> list(){

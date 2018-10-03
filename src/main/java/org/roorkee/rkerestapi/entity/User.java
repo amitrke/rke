@@ -7,7 +7,10 @@ public class User extends AbstractEntity {
     
     @GStoreAttr
     private String email;
-    
+
+    @GStoreAttr
+    private String gId;
+
     @GStoreAttr
     private String name;
     
@@ -23,5 +26,6 @@ public class User extends AbstractEntity {
 		email = "abc@def.com";
 		name = "Test Name";
 		imageURL = "/abc/def/a.jpg";
+		gId = "113510510750160541112";
 	}
 }

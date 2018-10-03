@@ -2,6 +2,9 @@ package org.roorkee.rkerestapi.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +16,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -40,6 +45,17 @@ public class UserControllerTest extends AbstractBaseControllerTest<User>{
     @Override @Test
 	public void getPositive() throws Exception {
 		super.getPositive();
+	}
+
+	@Test
+	public void searchPositive() throws Exception{
+		super.createPositive();
+		String postBody = "{\"gId\":\"113510510750160541112\"}";
+		MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(apiURL+"search");
+		request.content(postBody);
+		request.header("Content-Type", "application/json");
+		this.mockMvc.perform(request).andDo(print()).andExpect(status().isOk())
+				.andExpect(content().json("{'response': '1'}"));
 	}
 
 	@Override
