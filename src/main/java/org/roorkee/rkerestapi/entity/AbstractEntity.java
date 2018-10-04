@@ -1,6 +1,7 @@
 package org.roorkee.rkerestapi.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query;
 import lombok.Data;
@@ -35,6 +36,7 @@ public abstract class AbstractEntity {
     @GStoreAttr
     private String status;
 
+    @JsonIgnore
     public List<Query.Filter> getDatastoreFilter(){
         List<Query.Filter> filter = new ArrayList<Query.Filter>();
 
