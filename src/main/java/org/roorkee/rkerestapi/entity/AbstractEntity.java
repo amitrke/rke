@@ -30,7 +30,6 @@ public abstract class AbstractEntity {
     private Date created;
 
     @GStoreAttr
-    @NotNull
     private Long userId;
 
     @GStoreAttr
