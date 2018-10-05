@@ -9,6 +9,9 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -46,7 +49,17 @@ public class UserDaoTest extends AbstractBaseDaoTest<User>{
     public void delete_positive(){
         super.delete_positive();
     }
-    
+
+    @Test
+    public void search_positive() {
+        long out = getDao().save(mockEntity);
+        User searchObj = new User();
+        searchObj.setGId("113510510750160541112");
+
+        List<User> searchResults = getDao().search(searchObj);
+        assertThat(searchResults.size()).isGreaterThan(0);
+    }
+
     @Test
     public void edit_positive(){
         long out = getDao().save(mockEntity);

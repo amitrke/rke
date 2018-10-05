@@ -42,6 +42,10 @@ public abstract class AbstractDao<T extends AbstractEntity> implements Initializ
         Query q = new Query(getKind());
         PreparedQuery pq = datastore.prepare(q);
         List<Entity> gEntityList = pq.asList(FetchOptions.Builder.withLimit(10));
+        return dsEntityToAppEntity(gEntityList);
+    }
+
+    private List<T> dsEntityToAppEntity(List<Entity> gEntityList){
         List<T> entityList = new ArrayList<T>();
 
         for (Entity gEntity: gEntityList){
@@ -50,6 +54,16 @@ public abstract class AbstractDao<T extends AbstractEntity> implements Initializ
             entityList.add(entity);
         }
         return entityList;
+    }
+
+    public List<T> search(T entity){
+        Query q = new Query(getKind());
+        for(Query.Filter filter: entity.getDatastoreFilter()){
+            q.setFilter(filter);
+        }
+        PreparedQuery pq = datastore.prepare(q);
+        List<Entity> gEntityList = pq.asList(FetchOptions.Builder.withLimit(10));
+        return dsEntityToAppEntity(gEntityList);
     }
 
     private Key createKey(Long id) {
