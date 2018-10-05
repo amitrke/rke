@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.Channels;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.roorkee.rkerestapi.util.RkeException;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ import com.google.appengine.tools.cloudstorage.GcsFilename;
 import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
 import com.google.appengine.tools.cloudstorage.GcsService;
 import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
+import com.google.appengine.tools.cloudstorage.ListItem;
+import com.google.appengine.tools.cloudstorage.ListOptions;
+import com.google.appengine.tools.cloudstorage.ListResult;
 import com.google.appengine.tools.cloudstorage.RetryParams;
 
 @Service
@@ -24,7 +29,22 @@ public class FileStorageService {
             .totalRetryPeriodMillis(15000)
             .build());
     private static final int BUFFER_SIZE = 2 * 1024 * 1024;
-
+    
+    public List<String> list(final String folder, final String bucketName) {
+    	ListOptions listOptions = new ListOptions.Builder().setPrefix(folder).build();
+    	List<String> files = new ArrayList<>();
+    	try {
+			ListResult listResult = gcsService.list(bucketName, listOptions);
+			while(listResult.hasNext()) {
+				ListItem listItem = listResult.next();
+				files.add(listItem.getName());
+			}
+			return files;
+		} catch (IOException e) {
+			throw new RkeException(e);
+		}
+    }
+    
     public String uploadFile2(InputStream is, final String hdrFileName, final String bucketName) {
         GcsFilename fileName = new GcsFilename(bucketName, hdrFileName);
         GcsOutputChannel outputChannel;

@@ -1,0 +1,3 @@
+GET http://localhost:8080/api/image/
+Content-Type: application/json
+folder: users/6368371348078592
