@@ -2,6 +2,8 @@ target/
 .idea/
 .DS_Store
 projectFilesBackup/
+.gradle/
+build/
 
 #Eclipse
 .settings
