@@ -12,11 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/image")
@@ -49,7 +45,16 @@ public class ImageController{
 		sr.setResponse(resp);
 		return new ResponseEntity<StringResponse>(sr, HttpStatus.OK);
 	}
-    
+
+    @DeleteMapping(path="/", produces = "application/json")
+    ResponseEntity<Boolean> delete(HttpServletRequest req){
+        if (StringUtils.isEmpty(req.getHeader(HDR_FILENAME))){
+            throw new RkeException(new RuntimeException("Filename header missing in request."));
+        }
+        boolean resp = fileStorageService.delete((String) req.getHeader(HDR_FILENAME), CLOUD_BUCKET);
+        return new ResponseEntity<Boolean>(resp, HttpStatus.OK);
+    }
+
     @GetMapping(path="/", produces = "application/json")
     ResponseEntity<List<String>> list(HttpServletRequest req){
     	if (StringUtils.isEmpty(req.getHeader(HDR_FOLDER))){

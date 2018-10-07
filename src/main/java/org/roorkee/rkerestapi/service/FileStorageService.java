@@ -44,7 +44,17 @@ public class FileStorageService {
 			throw new RkeException(e);
 		}
     }
-    
+
+    public boolean delete(final String filename, final String bucketName){
+        GcsFilename gcsFileName = new GcsFilename(bucketName, filename);
+        try {
+            return gcsService.delete(gcsFileName);
+        }
+        catch(IOException e){
+            throw new RkeException(e);
+        }
+    }
+
     public String uploadFile2(InputStream is, final String hdrFileName, final String bucketName) {
         GcsFilename fileName = new GcsFilename(bucketName, hdrFileName);
         GcsOutputChannel outputChannel;
