@@ -6,6 +6,7 @@ import org.roorkee.rkerestapi.util.RkeException;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public abstract class AbstractDao<T extends AbstractEntity> implements InitializingBean{
@@ -22,6 +23,12 @@ public abstract class AbstractDao<T extends AbstractEntity> implements Initializ
     }
 
     public long save(T entity) {
+        if (entity.getCreated() == null){
+            entity.setCreated(new Date());
+        }
+        if (entity.getStatus() == null){
+            entity.setStatus("pending-review");
+        }
         Key k = datastore.put(entity.toGoogleDatastoreEntity());
         return k.getId();
     }
