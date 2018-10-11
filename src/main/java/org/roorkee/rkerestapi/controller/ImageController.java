@@ -21,7 +21,7 @@ public class ImageController{
 	
 	private static final String HDR_FILENAME = "filename";
 	private static final String HDR_FOLDER = "folder";
-    private static final String CLOUD_BUCKET = "static.roorkee.org";
+    private static final String CLOUD_BUCKET = "up.roorkee.org";
     
     @Autowired FileStorageService fileStorageService;
     
