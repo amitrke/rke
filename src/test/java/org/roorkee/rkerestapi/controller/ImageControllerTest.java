@@ -52,9 +52,9 @@ public class ImageControllerTest {
         File file = new File("src/test/java/org/roorkee/rkerestapi/book.png");
         InputStream is = new FileInputStream(file);
 
-        String i = "static.roorkee.org/img/name.jpg";
+        String i = "up.roorkee.org/img/name.jpg";
 
-        when(fileStorageService.uploadFile2(any(InputStream.class), eq("img/name.jpg"), eq("static.roorkee.org")))
+        when(fileStorageService.uploadFile2(any(InputStream.class), eq("img/name.jpg"), eq("up.roorkee.org")))
                 .thenReturn(i);
 
         MockMultipartFile fstmp = new MockMultipartFile("upload", file.getName(), "multipart/form-data",is);
@@ -64,6 +64,6 @@ public class ImageControllerTest {
 
 
         this.mockMvc.perform(request).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().json("{\"response\":\"static.roorkee.org/img/name.jpg\"}"));
+                .andExpect(content().json("{\"response\":\"up.roorkee.org/img/name.jpg\"}"));
     }
 }
