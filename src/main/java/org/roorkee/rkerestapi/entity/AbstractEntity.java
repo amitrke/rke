@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query;
 import lombok.Data;
+import org.apache.commons.lang3.ArrayUtils;
 import org.roorkee.rkerestapi.util.RkeException;
 
 import java.beans.IntrospectionException;
@@ -36,29 +37,27 @@ public abstract class AbstractEntity {
     private String status;
 
     @JsonIgnore
-    public List<Query.Filter> getDatastoreFilter(){
+    public List<Query.Filter> getDatastoreFilter() {
         List<Query.Filter> filter = new ArrayList<Query.Filter>();
 
-        Field[] fields = this.getClass().getDeclaredFields();
-        for(Field field: fields){
-            if (field.isAnnotationPresent(GStoreAttr.class)){
+        Field[] fields = ArrayUtils.addAll(this.getClass().getSuperclass().getDeclaredFields(), this.getClass().getDeclaredFields());
+
+        for (Field field : fields) {
+            if (field.isAnnotationPresent(GStoreAttr.class)) {
                 Annotation annotation = field.getAnnotation(GStoreAttr.class);
                 GStoreAttr gStoreAttr = (GStoreAttr) annotation;
-                if (gStoreAttr.type().equals(Object.class)){
+                if (gStoreAttr.type().equals(Object.class)) {
                     try {
                         PropertyDescriptor propertyDescriptor = new PropertyDescriptor(field.getName(), this.getClass());
                         Object variableValue = propertyDescriptor.getReadMethod().invoke(this);
                         if (variableValue != null) {
                             filter.add(new Query.FilterPredicate(field.getName(), Query.FilterOperator.EQUAL, variableValue));
                         }
-                    }
-                    catch (IllegalAccessException e){
+                    } catch (IllegalAccessException e) {
                         throw new RkeException(e);
-                    }
-                    catch (IntrospectionException e){
+                    } catch (IntrospectionException e) {
                         throw new RkeException(e);
-                    }
-                    catch (InvocationTargetException e){
+                    } catch (InvocationTargetException e) {
                         throw new RkeException(e);
                     }
                 }
