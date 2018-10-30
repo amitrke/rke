@@ -1,5 +1,6 @@
 # Roorkee Spring Boot REST APIs
 Build [![CircleCI](https://circleci.com/gh/amitrke/rke.svg?style=svg)](https://circleci.com/gh/amitrke/rke)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Famitrke%2Frke.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Famitrke%2Frke?ref=badge_shield)
 
 This repository contains server side Java code for RESTFul API, the API is developed using Spring boot and is designed to be deployed to Google AppEngine.
 
@@ -23,3 +24,6 @@ Appengine local console: http://localhost:8080/_ah/admin/
 
 ## History
 MyRoorkee.com was a college project started by 5 students from S.D.C.E.T College Muzaffarnagar - Computer Science Batch of 2002
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Famitrke%2Frke.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Famitrke%2Frke?ref=badge_large)
