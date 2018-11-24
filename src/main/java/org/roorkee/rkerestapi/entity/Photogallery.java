@@ -1,15 +1,13 @@
 package org.roorkee.rkerestapi.entity;
 
+import lombok.Data;
+
 import javax.validation.constraints.NotNull;
 
+@Data
 public class Photogallery extends AbstractEntity {
 
     @GStoreAttr
-    @NotNull
-    private String title;
-
-    @GStoreAttr
-    @NotNull
     private String imageURL;
 
 }
