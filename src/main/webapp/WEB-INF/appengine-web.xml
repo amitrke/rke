@@ -2,4 +2,5 @@
     <version>1</version>
     <threadsafe>true</threadsafe>
     <runtime>java8</runtime>
+    <warmup-requests-enabled>true</warmup-requests-enabled>
 </appengine-web-app>
