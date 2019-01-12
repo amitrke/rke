@@ -21,5 +21,14 @@ Swagger UI: http://localhost:8080/swagger-ui.html
 
 Appengine local console: http://localhost:8080/_ah/admin/
 
+## Developer workspace setup
+
+- Install Java 8+
+- Install STS (https://spring.io/tools)
+- Setup Lombok (https://projectlombok.org/setup/eclipse)
+- git clone
+- STS > Import Existing Maven Project
+- Run - Project right click, RunAs, Maven... appengine:run, 
+
 ## History
 MyRoorkee.com was a college project started by 5 students from S.D.C.E.T College Muzaffarnagar - Computer Science Batch of 2002
