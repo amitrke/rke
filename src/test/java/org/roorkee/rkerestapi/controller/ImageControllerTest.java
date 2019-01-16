@@ -54,16 +54,35 @@ public class ImageControllerTest {
 
         String i = "up.roorkee.org/img/name.jpg";
 
-        when(fileStorageService.uploadFile2(any(InputStream.class), eq("img/name.jpg"), eq("up.roorkee.org")))
+        when(fileStorageService.uploadFile2(any(InputStream.class), any(String.class), eq("up.roorkee.org")))
                 .thenReturn(i);
 
         MockMultipartFile fstmp = new MockMultipartFile("upload", file.getName(), "multipart/form-data",is);
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.multipart("/api/image/")
                 .file(fstmp);
-        request.header("filename", "img/name.jpg");
+        request.header("filename", "upload/users/5700646637440000/IMG_5794.jpg");
 
 
         this.mockMvc.perform(request).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().json("{\"response\":\"up.roorkee.org/img/name.jpg\"}"));
+    }
+
+    @Test
+    public void imageUploadShouldNotWork2() throws Exception {
+        File file = new File("src/test/java/org/roorkee/rkerestapi/book.png");
+        InputStream is = new FileInputStream(file);
+
+        String i = "up.roorkee.org/img/name.jpg";
+
+        when(fileStorageService.uploadFile2(any(InputStream.class), any(String.class), eq("up.roorkee.org")))
+                .thenReturn(i);
+
+        MockMultipartFile fstmp = new MockMultipartFile("upload", file.getName(), "multipart/form-data",is);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.multipart("/api/image/")
+                .file(fstmp);
+        request.header("filename", "upload/users/undefined/IMG_5794.jpg");
+
+        this.mockMvc.perform(request).andDo(print()).andExpect(status().is4xxClientError())
+                .andExpect(content().json("{'message': 'java.lang.RuntimeException: User folder missing or file not a jpg.'}"));
     }
 }

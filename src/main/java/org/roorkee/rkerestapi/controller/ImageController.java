@@ -38,8 +38,13 @@ public class ImageController{
         if (StringUtils.isEmpty(req.getHeader(HDR_FILENAME))){
             throw new RkeException(new RuntimeException("Filename header missing in request."));
         }
-        
-        String resp = fileStorageService.uploadFile2(inputStream, req.getHeader(HDR_FILENAME), CLOUD_BUCKET);
+
+        String filename = req.getHeader(HDR_FILENAME);
+        if (!filename.matches("^upload/users/-?\\d*\\/(.+\\.(?i)(jpg|jpeg|JPG|JPEG))$")){
+            throw new RkeException(new RuntimeException("User folder missing or file not a jpg."));
+        }
+
+        String resp = fileStorageService.uploadFile2(inputStream, filename, CLOUD_BUCKET);
         
         StringResponse sr = new StringResponse();
 		sr.setResponse(resp);
