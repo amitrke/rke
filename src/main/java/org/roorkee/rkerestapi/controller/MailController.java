@@ -1,5 +1,6 @@
 package org.roorkee.rkerestapi.controller;
 
+import org.roorkee.rkerestapi.service.CacheService;
 import org.roorkee.rkerestapi.service.MailService;
 import org.roorkee.rkerestapi.util.RkeException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class MailController {
     @Autowired
     private MailService service;
 
+    @Autowired
+    private CacheService cacheService;
+
     @PostMapping(path= "/_ah/mail/*")
     void incoming(HttpServletRequest req){
         Properties props = new Properties();
@@ -44,12 +48,17 @@ public class MailController {
 
     @PostMapping(path= "/api/mail/out/", consumes = "application/json", produces = "application/json")
     ResponseEntity<StringResponse> outbound(@RequestBody @Valid MessageRequest messageRequest){
+        Object didUserSentAnEmailInTheLastHour = cacheService.get("outbound-mail-"+messageRequest.getFromUserId());
+        if (didUserSentAnEmailInTheLastHour != null){
+            throw new RkeException(new RuntimeException("You already sent an email in the last one hour."));
+        }
         try {
             InternetAddress toAddress = new InternetAddress(messageRequest.getToEmail(), messageRequest.getToName());
             boolean resp = this.service.sendMultipartMail(toAddress,
                     messageRequest.getSubject(), messageRequest.getTextBody(), messageRequest.getHtmlBody());
             StringResponse sr = new StringResponse();
             sr.setResponse(String.valueOf(resp));
+            cacheService.put("outbound-mail-"+messageRequest.getFromUserId(), messageRequest.getHtmlBody());
             return new ResponseEntity<StringResponse>(sr, HttpStatus.OK);
         }
         catch(UnsupportedEncodingException e) {
