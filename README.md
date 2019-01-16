@@ -4,7 +4,7 @@ Build [![CircleCI](https://circleci.com/gh/amitrke/rke.svg?style=svg)](https://c
 This repository contains server side Java code for RESTFul API, the API is developed using Spring boot and is designed to be deployed to Google AppEngine.
 
 ## Contributing
-Feel free to contribute to this project by creating a branch and later a pull request.
+Feel free to contribute to this project by creating a pull request.
 
 ## Build and test
 ./mvnw install
@@ -26,6 +26,7 @@ Appengine local console: http://localhost:8080/_ah/admin/
 - Install Java 8+
 - Install STS (https://spring.io/tools)
 - Setup Lombok (https://projectlombok.org/setup/eclipse)
+- Setup Google Cloud SDK - Java (https://cloud.google.com/sdk/docs/#install_the_latest_cloud_sdk_version)
 - git clone
 - STS > Import Existing Maven Project
 - Run - Project right click, RunAs, Maven... appengine:run, 
