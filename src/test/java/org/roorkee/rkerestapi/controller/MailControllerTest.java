@@ -47,6 +47,7 @@ public class MailControllerTest {
     @Test
     public void testOutbound() throws Exception {
         MessageRequest mockEntity = new MessageRequest();
+        mockEntity.setFromUserId(1L);
         mockEntity.setToEmail("abc@gmail.com");
         mockEntity.setToName("John Doe");
         mockEntity.setTextBody("Text Body");
