@@ -83,6 +83,6 @@ public class ImageControllerTest {
         request.header("filename", "upload/users/undefined/IMG_5794.jpg");
 
         this.mockMvc.perform(request).andDo(print()).andExpect(status().is4xxClientError())
-                .andExpect(content().json("{'message': 'java.lang.RuntimeException: User folder missing or file not a jpg.'}"));
+                .andExpect(content().json("{'message': 'User folder missing or file not a jpg.'}"));
     }
 }
