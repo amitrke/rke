@@ -44,7 +44,7 @@ public class ImageControllerTest {
     public void imageUploadShouldNotWork1() throws Exception {
         MockHttpServletRequestBuilder request = post("/api/image/");
         this.mockMvc.perform(request).andDo(print()).andExpect(status().is4xxClientError())
-                .andExpect(content().json("{'message': 'java.lang.RuntimeException: Filename header missing in request.'}"));
+                .andExpect(content().json("{'message': 'Filename header missing in request.'}"));
     }
 
     @Test
