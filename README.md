@@ -7,7 +7,7 @@ This repository contains server side Java code for RESTFul API, the API is devel
 Feel free to contribute to this project by creating a pull request.
 
 ## Build and test
-./mvnw install
+./gradlew appengineRun
 
 ## Run using Docker
 ```
@@ -28,8 +28,7 @@ Appengine local console: http://localhost:8080/_ah/admin/
 - Setup Lombok (https://projectlombok.org/setup/eclipse)
 - Setup Google Cloud SDK - Java (https://cloud.google.com/sdk/docs/#install_the_latest_cloud_sdk_version)
 - git clone
-- STS > Import Existing Maven Project
-- Run - Project right click, RunAs, Maven... appengine:run, 
+- STS > Import Gradle project
 
 ## History
 MyRoorkee.com was a college project started by 5 students from S.D.C.E.T College Muzaffarnagar - Computer Science Batch of 2002
