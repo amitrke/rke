@@ -3,8 +3,10 @@ package org.roorkee.rkerestapi.controller;
 import com.google.api.client.extensions.appengine.http.UrlFetchTransport;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import org.roorkee.rkerestapi.util.RkeException;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,21 +24,24 @@ import java.util.Collections;
 @RestController
 @RequestMapping("/tokensignin")
 @CrossOrigin
-public class TokenSigninController {
+public class TokenSigninController implements InitializingBean {
 
     private static final String HDR_TOKEN = "token";
 
     @Value("${google.oauth2.clientId}")
     private String clientId;
 
-    private static final JacksonFactory jacksonFactory = new JacksonFactory();
+    GoogleIdTokenVerifier verifier;
 
-    GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(UrlFetchTransport.getDefaultInstance(), jacksonFactory)
-            // Specify the CLIENT_ID of the app that accesses the backend:
-            .setAudience(Collections.singletonList(clientId))
-            // Or, if multiple clients access the backend:
-            //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
-            .build();
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance())
+                // Specify the CLIENT_ID of the app that accesses the backend:
+                .setAudience(Collections.singletonList(clientId))
+                // Or, if multiple clients access the backend:
+                //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
+                .build();
+    }
 
     @GetMapping
     public ResponseEntity tokenSignIn(HttpServletRequest req){
