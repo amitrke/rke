@@ -1,6 +1,6 @@
 package org.roorkee.rkerestapi;
 
-import com.google.appengine.repackaged.org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.roorkee.rkerestapi.service.CacheService;
 import org.springframework.beans.factory.annotation.Autowired;
