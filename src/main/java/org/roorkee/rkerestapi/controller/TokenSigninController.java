@@ -5,8 +5,13 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.appengine.repackaged.org.apache.commons.codec.digest.DigestUtils;
+import org.roorkee.rkerestapi.dao.UserDao;
+import org.roorkee.rkerestapi.entity.User;
+import org.roorkee.rkerestapi.service.CacheService;
 import org.roorkee.rkerestapi.util.RkeException;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("/tokensignin")
@@ -30,6 +36,12 @@ public class TokenSigninController implements InitializingBean {
 
     @Value("${google.oauth2.clientId}")
     private String clientId;
+
+    @Autowired
+    private CacheService cacheService;
+
+    @Autowired
+    private UserDao userDao;
 
     GoogleIdTokenVerifier verifier;
 
@@ -43,8 +55,8 @@ public class TokenSigninController implements InitializingBean {
                 .build();
     }
 
-    @GetMapping
-    public ResponseEntity tokenSignIn(HttpServletRequest req){
+    @GetMapping(produces = "application/json")
+    public ResponseEntity<String> tokenSignIn(HttpServletRequest req){
         if (StringUtils.isEmpty(req.getHeader(HDR_TOKEN))) {
             throw new RkeException(new RuntimeException("Token header missing in request."));
         }
@@ -61,8 +73,6 @@ public class TokenSigninController implements InitializingBean {
             GoogleIdToken.Payload payload = idToken.getPayload();
             // Print user identifier
             String userId = payload.getSubject();
-            System.out.println("User ID: " + userId);
-
             // Get profile information from payload
             String email = payload.getEmail();
             boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
@@ -74,10 +84,37 @@ public class TokenSigninController implements InitializingBean {
 
             // Use or store profile information
             // ...
-            return new ResponseEntity(HttpStatus.OK);
+            User user = newUser(payload);
+            if (cacheService.get(DigestUtils.md5Hex(idTokenString)) == null){
+                user = getDBUser(user);
+                cacheService.put(DigestUtils.md5Hex(idTokenString), user.getId());
+            }
+            else{
+                user.setId((Long) cacheService.get(DigestUtils.md5Hex(idTokenString)));
+            }
+
+            return new ResponseEntity(new StringResponse(user.getId().toString()), HttpStatus.OK);
         } else {
             throw new RkeException(new RuntimeException("Invalid Token"));
         }
+    }
+
+    private User getDBUser(User user){
+        List<User> dbUser = userDao.search(user);
+        if (dbUser != null && dbUser.size() > 0){
+            return dbUser.get(0);
+        }
+        else{
+            Long userId = userDao.save(user);
+            return userDao.get(userId);
+        }
+    }
+
+    private User newUser(GoogleIdToken.Payload payload){
+        User user = new User();
+        user.setGId(payload.getSubject());
+        user.setEmail(payload.getEmail());
+        return user;
     }
 
 }
