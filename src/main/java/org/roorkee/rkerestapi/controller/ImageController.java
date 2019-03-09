@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.roorkee.rkerestapi.service.FileStorageService;
 import org.roorkee.rkerestapi.util.RkeException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -21,9 +22,11 @@ public class ImageController{
 	
 	private static final String HDR_FILENAME = "filename";
 	private static final String HDR_FOLDER = "folder";
-    private static final String CLOUD_BUCKET = "up.roorkee.org";
     
     @Autowired FileStorageService fileStorageService;
+
+    @Value("${app.upload.bucket}")
+    private String CLOUD_BUCKET;
     
     @PostMapping(path= "/", produces = "application/json")
 	ResponseEntity<StringResponse> save(HttpServletRequest req) {

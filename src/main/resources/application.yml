@@ -3,6 +3,8 @@ app:
     admin:
       email: admin@myrke-189201.appspotmail.com
       name: Roorkee.org Admin
+  upload:
+    bucket: up.roorkee.org
 google:
   oauth2:
     clientId: 670134176077-h5g5nn6catjdo2uoo36d5eji03ccf186.apps.googleusercontent.com
