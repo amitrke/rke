@@ -37,10 +37,9 @@ public class StaticCacheController {
         Article article = new Article();
         article.setStatus("published-to-homepage");
         List<Article> articles = articleDao.search(article);
-        ResponseEntity<List<Article>> resObj = new ResponseEntity<>(articles, HttpStatus.OK);
         ObjectMapper mapper = new ObjectMapper();
         try {
-            byte[] byteArray = mapper.writeValueAsBytes(resObj);
+            byte[] byteArray = mapper.writeValueAsBytes(articles);
             InputStream is = new ByteArrayInputStream(byteArray);
             fileStorageService.uploadFile2(is, "cache/home.json", cloudBucket);
         }
